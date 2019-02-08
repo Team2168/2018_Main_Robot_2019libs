@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -110,7 +111,8 @@ public class Robot extends TimedRobot
   //Driver Joystick Chooser
     static int autoPriority;
     public static SendableChooser<Number> autoPriorityChooser;
-    
+	
+	public static SendableChooser<Number> throttleVibeChooser;
 
 	double runTime = Timer.getFPGATimestamp();
     
@@ -456,7 +458,8 @@ public class Robot extends TimedRobot
 		
 		//Initialize Control Selector Choices
 		AutoPrioritySelectInit();
-				
+
+		autoPrioritySelectInit();
 
 		pdp = new PowerDistribution(RobotMap.PDPThreadPeriod);
 		pdp.startThread();
@@ -473,6 +476,7 @@ public class Robot extends TimedRobot
 		ConsolePrinter.putSendable("Control Style Chooser", () -> {return Robot.controlStyleChooser;}, true, false);
 		ConsolePrinter.putSendable("Autonomous Mode Chooser", () -> {return Robot.autoChooser;}, true, false);
 		ConsolePrinter.putSendable("Priority Mode Chooser", () -> {return Robot.autoPriorityChooser;}, true, false);
+		ConsolePrinter.putSendable("Throttle Vibe Chooser", () -> {return Robot.throttleVibeChooser;}, true, false);
 		ConsolePrinter.putString("AutoName", () -> {return Robot.getAutoName();}, true, false);
 		ConsolePrinter.putString("Control Style Name", () -> {return Robot.getControlStyleName();}, true, false);
 		ConsolePrinter.putString("Auto Priority Name", () -> {return Robot.getAutoPriority();}, true, false);
@@ -616,7 +620,10 @@ public class Robot extends TimedRobot
 	     * This function is called periodically during operator control
 	     */
 	    public void teleopPeriodic() {
-	    	
+			if((int) throttleVibeChooser.getSelected() == 0) {
+				OI.driverJoystick.setRumble(RumbleType.kLeftRumble, Math.abs(OI.getGunStyleYValue()));
+			}
+
 	        SmartDashboard.putNumber("TeleopLoopTime", Timer.getFPGATimestamp()-runTime);
 	        runTime = Timer.getFPGATimestamp();
 	    
@@ -691,6 +698,12 @@ public class Robot extends TimedRobot
 
 		public static int getAutoPriorityInt() {
 			return (int) autoPriorityChooser.getSelected();
+		}
+
+		public void autoPrioritySelectInit() {
+			throttleVibeChooser = new SendableChooser<>();
+			throttleVibeChooser.addObject("Throttle Vibe ON", 0);
+			throttleVibeChooser.addDefault("Throttle Vibe OFF", 1);
 		}
 
 		/**
