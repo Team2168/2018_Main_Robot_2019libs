@@ -470,17 +470,6 @@ public class Robot extends TimedRobot
 		drivetrain.calibrateGyro();
 		driverstation = DriverStation.getInstance();
 
-
-		
-		
-
-		
-		
-		
-		
-		
-		
-		
 		ConsolePrinter.putSendable("Control Style Chooser", () -> {return Robot.controlStyleChooser;}, true, false);
 		ConsolePrinter.putSendable("Autonomous Mode Chooser", () -> {return Robot.autoChooser;}, true, false);
 		ConsolePrinter.putSendable("Priority Mode Chooser", () -> {return Robot.autoPriorityChooser;}, true, false);
@@ -491,11 +480,6 @@ public class Robot extends TimedRobot
 		ConsolePrinter.putNumber("Robot Pressure", () -> {return Robot.pneumatics.getPSI();}, true, false);
 		ConsolePrinter.putBoolean("Is Practice Bot", () -> {return isPracticeRobot();}, true, false);
 		ConsolePrinter.putString("Switch_Scale_Switch orientation", () -> {return driverstation.getGameSpecificMessage();}, true, false); //Ill show you de wei
-
-		
-		
-		
-		
 
 		ConsolePrinter.startThread();
 		System.out.println("************Robot Done Loading Successfully**********");
@@ -562,7 +546,6 @@ public class Robot extends TimedRobot
 		//Keep track of Gunstyle Controller Variables
 		
 		callArduino();
-		getControlStyleInt();
 		controlStyle = (int) controlStyleChooser.getSelected();
 		autoPriority = (int) autoPriorityChooser.getSelected();
 		autonomousCommand = (Command) autoChooser.getSelected();
@@ -744,9 +727,10 @@ public class Robot extends TimedRobot
 		public void controlStyleSelectInit() {
 			controlStyleChooser = new SendableChooser<>();
 			controlStyleChooser.addObject("Tank Drive", 0);
-			controlStyleChooser.addDefault("Gun Style Controller", 1);
-			controlStyleChooser.addObject("Arcade Drive", 2);
+			//controlStyleChooser.addObject("Gun Style Controller", 1);
+			//controlStyleChooser.addObject("Arcade Drive", 2);
 			controlStyleChooser.addObject("GTA Drive", 3);
+			controlStyleChooser.addDefault("Gun Style (new)", 4);
 		}
 
 		public static int getControlStyleInt() {
