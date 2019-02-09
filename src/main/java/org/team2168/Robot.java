@@ -126,7 +126,32 @@ public class Robot extends TimedRobot
     private static boolean blueAlliance = false;
     
     public static OneDimensionalMotionProfiling motion;
-    
+	
+	/***************************************************
+	 *                 2019 stuff
+	 **************************************************/
+
+	public static double[] leftVelQuinticPath;
+    public static double[] rightVelQuinticPath;
+    public static double[] leftPosQuinticPath;
+    public static double[] rightPosQuinticPath;
+	public static double[] headingQuinticPath;
+	
+    public static double[] leftVelQuinticPath2;
+    public static double[] rightVelQuinticPath2;
+    public static double[] leftPosQuinticPath2;
+    public static double[] rightPosQuinticPath2;
+    public static double[] headingQuinticPath2;
+
+    public static double[] leftVelQuinticPath3;
+    public static double[] rightVelQuinticPath3;
+    public static double[] leftPosQuinticPath3;
+    public static double[] rightPosQuinticPath3;
+    public static double[] headingQuinticPath3;
+
+	 /**************************************************
+	  * 
+	  *************************************************/
     
     public static double[] leftVelPathQuintic;
     public static double[] rightVelPathQuintic;
@@ -228,7 +253,80 @@ public class Robot extends TimedRobot
 //			System.out.println(motion.getVelArray()[i]);
 //		//Start Thread Only After Every Other Class is Loaded. 
 		
-		
+/********************************************************
+ *                  2019 Stuff
+********************************************************/
+
+double[][] wpPath = new double[][] {
+
+	//			{0,0,0},
+	//			{120,0,0}
+	
+	//			{0.0, 0.0, 0},
+	//			{48.0, 0.0, 0},
+	//			{132.0, 84.0, Math.PI/6}
+	
+				{48.0, 0.0, 0},
+				{96.0, 0.0, 0},
+				{180.0, 90.0, Math.PI/6}
+			};
+	
+			QuinticTrajectory qPath = new QuinticTrajectory("test1", wpPath);
+	
+			this.leftPosQuinticPath = qPath.getLeftPos();
+			this.rightPosQuinticPath = qPath.getRightPos();
+			this.leftVelQuinticPath = qPath.getLeftVel();
+			this.rightVelQuinticPath = qPath.getRightVel();
+			this.headingQuinticPath = qPath.getHeadingDeg();
+	
+			double[][] wpPath2 = new double[][] {
+	
+	//			{0.0, 0.0, 0},
+	//			{36.0, 0.0, 0},
+	//			{120.0, 84.0, Math.PI/2-0.001}
+	
+	//			{180.0, 90.0, -Math.PI/6},
+	//			{0.0, 90.0, 0},
+	
+				{0, 0.0, 0},
+				{120.0, 0.0, 0}
+			};
+	
+			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, true);
+	
+			this.leftPosQuinticPath2 = qPath2.getLeftPos();
+			this.rightPosQuinticPath2 = qPath2.getRightPos();
+			this.leftVelQuinticPath2 = qPath2.getLeftVel();
+			this.rightVelQuinticPath2 = qPath2.getRightVel();
+			this.headingQuinticPath2 = qPath2.getHeadingDeg();
+	
+			double[][] wpPath3 = new double[][] {
+	
+				{0.0, 0.0, 0},
+				{30.0, 0.0, 0},
+				{84.0, 54.0, Math.PI/2-0.001},
+				{138.0, 108.0, 0},
+				{168.0, 108.0, 0}
+	
+				// {0.0, 90.0, 0},
+				// {204.0, 21.0, -Math.PI/6},
+				// {263.0, 32.0, Math.PI/3-0.001},
+				// {252.0, 90.0, 5*Math.PI/6-0.002}
+	
+			};
+	
+			QuinticTrajectory qPath3 = new QuinticTrajectory("test3",wpPath3);
+	
+			this.leftPosQuinticPath3 = qPath3.getLeftPos();
+			this.rightPosQuinticPath3 = qPath3.getRightPos();
+			this.leftVelQuinticPath3 = qPath3.getLeftVel();
+			this.rightVelQuinticPath3 = qPath3.getRightVel();
+			this.headingQuinticPath3 = qPath3.getHeadingDeg();
+
+/********************************************************
+ *                  
+********************************************************/
+
 		double[][] waypointPath = new double[][]{
 			{1, 26, 0}, //For left switch & right scale from left side
 			{11.5, 27.0, 0},

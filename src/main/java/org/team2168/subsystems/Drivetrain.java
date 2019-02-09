@@ -56,6 +56,8 @@ public class Drivetrain extends Subsystem {
 	public PIDPosition rotateController;
 	public PIDPosition rotateDriveStraightController;
 	
+	public PIDPosition rightPosController;
+	public PIDPosition leftPosController;
 
 	// declare speed controllers
 	public PIDSpeed rightSpeedController;

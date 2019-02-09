@@ -74,6 +74,9 @@ public class QuinticTrajectory
 	public double[][] leftJerk;
 	public double[] heading;
 
+	public double[] rightAcc;
+	public double[] leftAcc;
+
 	private static PrintWriter log;
 
 	//private static String directory = "/home/lvuser/Path/";
@@ -701,6 +704,8 @@ public class QuinticTrajectory
 		  this.rightPos =  new double[this.leftRightTraj.right.getNumSegments()];
 		  this.heading =  new double[this.leftRightTraj.right.getNumSegments()];
 		  this.time =  new double[this.leftRightTraj.right.getNumSegments()];
+		  this.leftAcc = new double[this.leftRightTraj.right.getNumSegments()];
+		  this.rightAcc = new double[this.leftRightTraj.right.getNumSegments()];
 		  
 		  //copy left
 		  for( int i =0; i < this.leftRightTraj.left.getNumSegments(); i++)
@@ -734,6 +739,9 @@ public class QuinticTrajectory
 			  this.leftJerk[i][1] = this.leftRightTraj.left.getSegment(i).jerk;
 			  this.rightJerk[i][0] = this.leftRightTraj.right.getSegment(i).dt*i;
 			  this.rightJerk[i][1] = this.leftRightTraj.right.getSegment(i).jerk;
+
+			  this.leftAcc[i] = this.leftAccel[i][1];
+			  this.rightAcc[i] = this.rightAccel[i][1];
 			  
 		  }
 	  }
@@ -780,6 +788,8 @@ public class QuinticTrajectory
 		  double[] temp_rv = new double[heading.length];
 		  double[] temp_rp = new double[heading.length];
 		  double[] temp_lp = new double[heading.length];
+		  double[] temp_la = new double[heading.length];
+		  double[] temp_ra = new double[heading.length];
 
 		//inverting all arrays
 		for(int j=i; j>=0; j--)
@@ -791,6 +801,8 @@ public class QuinticTrajectory
 			temp_rv[j]= -rightVel[i-j];
 			temp_rp[j]= rightPos[i-j];
 			temp_lp[j]= leftPos[i-j];
+			temp_la[j] = -leftAcc[i-j];
+			temp_ra[j] = -rightAcc[i-j];
 			
 			
 		}
@@ -798,6 +810,7 @@ public class QuinticTrajectory
 		  
 		double temp_lp_zero = temp_lp[0];
 		double temp_rp_zero = temp_rp[0];
+
 
 		//subtracting first element from all pos elements
 		//and making velocities negative
@@ -813,6 +826,8 @@ public class QuinticTrajectory
 		this.rightPos =temp_rp;
 		this.leftVel =temp_lv;
 		this.rightVel =temp_rv;
+		this.leftAcc = temp_la;
+		this.rightAcc = temp_ra;
 		
 
 		for (int x=0; x<this.heading.length-1; x++)
