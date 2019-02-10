@@ -274,97 +274,97 @@ public class DrivePIDPathQuinticPID extends Command {
 
 
 
-		if(!direction)
+		// if(!direction)
 
-		{
-
-
-
-			this.setPointLeftVel = setPointLeftVel;
-
-			this.setPointRightVel = setPointRightVel;
-
-			this.setPointHeading = setPointHeading;
+		// {
 
 
 
-		}
+		// 	this.setPointLeftVel = setPointLeftVel;
 
-		//we want to drive the path backwards
+		// 	this.setPointRightVel = setPointRightVel;
 
-		// swap the left and right wheels, and negate the velocitys, also correct
-
-		//heading to be 180 from current position
-
-		else //invert heading
-
-		{
-
-			this.setPointLeftVel = setPointRightVel;
-
-			this.setPointRightVel = setPointLeftVel;
-
-			this.setPointHeading = setPointHeading;
+		// 	this.setPointHeading = setPointHeading;
 
 
 
-			double[] temp = new double[this.setPointHeading.length];
+		// }
 
-			double[] temp_rv = new double[this.setPointRightVel.length];
+		// //we want to drive the path backwards
 
-			double[] temp_lv = new double[this.setPointLeftVel.length];
+		// // swap the left and right wheels, and negate the velocitys, also correct
 
-			double[] temp_rp = new double[this.setPointRightPos.length];
+		// //heading to be 180 from current position
 
-			double[] temp_lp = new double[this.setPointLeftPos.length];
+		// else //invert heading
 
-			int counter = this.setPointHeading.length-1;
+		// {
 
-			for (int i=0; i<temp.length; i++)
+		// 	this.setPointLeftVel = setPointRightVel;
 
-			{
+		// 	this.setPointRightVel = setPointLeftVel;
 
-				//invert heading
-
-				temp[i] = this.setPointHeading[counter];
+		// 	this.setPointHeading = setPointHeading;
 
 
 
-				//invert and negate velocity
+		// 	double[] temp = new double[this.setPointHeading.length];
 
-				temp_rv[i] = -this.setPointRightVel[counter];
+		// 	double[] temp_rv = new double[this.setPointRightVel.length];
 
-				temp_lv[i] = -this.setPointLeftVel[counter];
+		// 	double[] temp_lv = new double[this.setPointLeftVel.length];
+
+		// 	double[] temp_rp = new double[this.setPointRightPos.length];
+
+		// 	double[] temp_lp = new double[this.setPointLeftPos.length];
+
+		// 	int counter = this.setPointHeading.length-1;
+
+		// 	for (int i=0; i<temp.length; i++)
+
+		// 	{
+
+		// 		//invert heading
+
+		// 		temp[i] = this.setPointHeading[counter];
 
 
 
-				//negate path
+		// 		//invert and negate velocity
 
-				temp_rp[i] = -this.setPointRightVel[i];
+		// 		temp_rv[i] = -this.setPointRightVel[counter];
 
-				temp_lp[i] = -this.setPointLeftVel[i];
-
-
-
-				counter--;
-
-			}
+		// 		temp_lv[i] = -this.setPointLeftVel[counter];
 
 
 
-			this.setPointHeading = temp;
+		// 		//negate path
 
-			this.setPointLeftVel = temp_lv;
+		// 		temp_rp[i] = -this.setPointRightVel[i];
 
-			this.setPointRightVel = temp_rv;
+		// 		temp_lp[i] = -this.setPointLeftVel[i];
 
-			this.setPointLeftPos = temp_lp;
 
-			this.setPointRightPos = temp_rp;
 
-			System.out.println("SetPointLength Backwards: " + setPointLeftVel.length);
+		// 		counter--;
 
-		}
+		// 	}
+
+
+
+		// 	this.setPointHeading = temp;
+
+		// 	this.setPointLeftVel = temp_lv;
+
+		// 	this.setPointRightVel = temp_rv;
+
+		// 	this.setPointLeftPos = temp_lp;
+
+		// 	this.setPointRightPos = temp_rp;
+
+		// 	System.out.println("SetPointLength Backwards: " + setPointLeftVel.length);
+
+		// }
 
 
 
@@ -873,7 +873,7 @@ public class DrivePIDPathQuinticPID extends Command {
 
 		{
 
-		//	Robot.drivetrain.leftPosController.reset();
+			Robot.drivetrain.leftPosController.reset();
 
 			Robot.drivetrain.leftPosController.Enable();
 
@@ -881,7 +881,7 @@ public class DrivePIDPathQuinticPID extends Command {
 
 
 
-		//	Robot.drivetrain.rightPosController.reset();
+			Robot.drivetrain.rightPosController.reset();
 
 			Robot.drivetrain.rightPosController.Enable();
 
