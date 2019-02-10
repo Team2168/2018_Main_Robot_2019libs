@@ -292,7 +292,7 @@ double[][] wpPath = new double[][] {
 				{120.0, 0.0, 0}
 			};
 	
-			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, true);
+			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2);
 	
 			this.leftPosQuinticPath2 = qPath2.getLeftPos();
 			this.rightPosQuinticPath2 = qPath2.getRightPos();
