@@ -36,10 +36,10 @@ public class RobotMap {
 	// PWM (0 to 9) on RoboRio/////////////////////////////////////////////////
 	public static final int RIGHT_DRIVE_MOTOR_1 = 0; //Same as 2017
 	public static final int RIGHT_DRIVE_MOTOR_2 = 1; //Same as 2017
-	public static final int RIGHT_DRIVE_MOTOR_3 = 12; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_1 = 3; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_2 = 4; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_3 = 13; //Same as 2017
+	public static final int RIGHT_DRIVE_MOTOR_3 = 16; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_1 = 2; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_2 = 3; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_3 = 17; //Same as 2017
 	
 	public static final int LIFT_MOTOR_1 = 4; //2017 ball intake
 	public static final int LIFT_MOTOR_2 = 5; //2017 conveyor
@@ -196,7 +196,7 @@ public class RobotMap {
 	private static final int DRIVE_PULSE_PER_ROTATION = 256; // encoder ticks per rotation
 	// TODO find ratio
 	private static final double DRIVE_GEAR_RATIO = 1.0 / 1.0; // ratio between wheel over encoder
-	private static final double DRIVE_WHEEL_DIAMETER = 6.0;   //6.0;
+	private static final double DRIVE_WHEEL_DIAMETER = 6.08;   //6.0;
 	public static final int DRIVE_ENCODER_PULSE_PER_ROT = (int) (DRIVE_PULSE_PER_ROTATION * DRIVE_GEAR_RATIO); // pulse
 																												// per
 																												// rotation

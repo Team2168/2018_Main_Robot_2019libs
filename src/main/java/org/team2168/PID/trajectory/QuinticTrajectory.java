@@ -79,8 +79,8 @@ public class QuinticTrajectory
 
 	private static PrintWriter log;
 
-	//private static String directory = "/home/lvuser/Path/";
-	private static String directory = "Path/";
+	private static String directory = "/home/lvuser/Path/";
+	//private static String directory = "Path/";
 
 	
 	public boolean reverse = false;
@@ -111,7 +111,7 @@ public class QuinticTrajectory
 			// {48.0, 0.0, 0},
 			// {96.0, 0.0, 0},
 			{0.0, 90.0, 0},
-			{180.0, 90.0, Math.PI/6},
+			{120.0, 90.0, 0},
 			
 			// {204.0, 21.0, -Math.PI/6},
 			// {263.0, 32.0, Math.PI/3-0.001},
@@ -134,7 +134,7 @@ public class QuinticTrajectory
 		{19, 21.5, -Math.PI/4+0.0001},
 
 	};		
-		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, true);
+		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, false);
 		quinticPath.plotPath();
 		//System.out.println(quinticPath.traj.toStringEuclidean());
 
@@ -325,8 +325,8 @@ public class QuinticTrajectory
 //	    config.max_jerk = 30.0*12;
 //	    config.max_vel = 10.0*12;
 	    
-	    config.max_vel = 0.5*12;
-	    config.max_acc = 0.5*12;
+	    config.max_vel = 3.0*12;
+	    config.max_acc = 3.0*12;
 	    config.max_jerk = 70.0*12;
 	    
 	    

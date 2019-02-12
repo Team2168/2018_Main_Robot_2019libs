@@ -58,7 +58,7 @@ public class Drive14FeetForward_9FeetLeft extends CommandGroup {
 
         // arm.
 
-    	addSequential(new DrivePIDPathQuinticPID(Robot.leftPosQuinticPath3, Robot.rightPosQuinticPath3, Robot.leftVelQuinticPath3, Robot.rightVelQuinticPath3, Robot.headingQuinticPath3, false));
+    	addSequential(new DrivePIDPathQuinticPID(Robot.leftPosQuinticPath3, Robot.rightPosQuinticPath3, Robot.leftVelQuinticPath3, Robot.rightVelQuinticPath3, Robot.headingQuinticPath3));
 
     }
 }

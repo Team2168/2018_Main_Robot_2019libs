@@ -1,6 +1,9 @@
 package org.team2168.subsystems;
 
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import org.team2168.Robot;
 import org.team2168.RobotMap;
 import org.team2168.PID.controllers.PIDPosition;
@@ -14,12 +17,10 @@ import org.team2168.utils.consoleprinter.ConsolePrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /**
  * Subsystem class for the Drivetrain
@@ -35,8 +36,8 @@ public class Drivetrain extends Subsystem {
 	private static SpeedController rightMotor2;
 	private static SpeedController rightMotor3;
 
-	private static boolean INVERT_LINE_SENSOR = true; //Line sensor uses negative logic (false = detected)
-	
+	private static boolean INVERT_LINE_SENSOR = true; // Line sensor uses negative logic (false = detected)
+
 	private ADXRS453Gyro gyroSPI;
 	private AverageEncoder drivetrainLeftEncoder;
 	private AverageEncoder drivetrainRightEncoder;
@@ -109,12 +110,12 @@ public class Drivetrain extends Subsystem {
 		}
 		else 
 		{
-		  leftMotor1 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_1);
-		  leftMotor2 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_2);
-		  leftMotor3 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_3);
-		  rightMotor1 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_1);
-		  rightMotor2 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_2);
-		  rightMotor3 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_3);
+		  leftMotor1 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_1);
+		  leftMotor2 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_2);
+		  leftMotor3 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_3);
+		  rightMotor1 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_1);
+		  rightMotor2 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_2);
+		  rightMotor3 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_3);
   }
 		
 		drivetrainRightEncoder = new AverageEncoder(
