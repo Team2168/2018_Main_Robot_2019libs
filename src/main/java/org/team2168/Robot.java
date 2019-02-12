@@ -293,6 +293,7 @@ double[][] wpPath = new double[][] {
 			};
 	
 			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, false);
+			qPath2.calculate();
 	
 			this.leftPosQuinticPath2 = qPath2.getLeftPos();
 			this.rightPosQuinticPath2 = qPath2.getRightPos();
@@ -316,7 +317,7 @@ double[][] wpPath = new double[][] {
 			};
 	
 			QuinticTrajectory qPath3 = new QuinticTrajectory("test3",wpPath3);
-	
+			qPath3.calculate();
 			this.leftPosQuinticPath3 = qPath3.getLeftPos();
 			this.rightPosQuinticPath3 = qPath3.getRightPos();
 			this.leftVelQuinticPath3 = qPath3.getLeftVel();
@@ -838,8 +839,8 @@ double[][] wpPath = new double[][] {
 		public void controlStyleSelectInit() {
 			controlStyleChooser = new SendableChooser<>();
 			controlStyleChooser.addObject("Tank Drive", 0);
-			//controlStyleChooser.addObject("Gun Style Controller", 1);
-			//controlStyleChooser.addObject("Arcade Drive", 2);
+			controlStyleChooser.addObject("Gun Style Controller", 1);
+			controlStyleChooser.addObject("Arcade Drive", 2);
 			controlStyleChooser.addObject("GTA Drive", 3);
 			controlStyleChooser.addDefault("Gun Style (new)", 4);
 		}
