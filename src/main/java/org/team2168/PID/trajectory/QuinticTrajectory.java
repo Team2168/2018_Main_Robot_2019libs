@@ -111,7 +111,7 @@ public class QuinticTrajectory
 			// {48.0, 0.0, 0},
 			// {96.0, 0.0, 0},
 			{0.0, 90.0, 0},
-			{600.0, 90.0, 0},
+			{120.0, 90.0, 0},
 			
 			// {204.0, 21.0, -Math.PI/6},
 			// {263.0, 32.0, Math.PI/3-0.001},
@@ -135,7 +135,8 @@ public class QuinticTrajectory
 
 	};		
 		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, false);
-		quinticPath.plotPath();
+		quinticPath.calculate();
+		//quinticPath.plotPath();
 		//System.out.println(quinticPath.traj.toStringEuclidean());
 
 
@@ -287,27 +288,16 @@ public class QuinticTrajectory
 				fig4.addData(quinticPath.rightVelocity, Color.magenta);
 				fig4.addData(quinticPath.leftVelocity, Color.cyan);
 
-				FalconLinePlot fig5 = new FalconLinePlot(new double[]{0.0});
+
+				FalconLinePlot fig5 = new FalconLinePlot(new double[][]{{0.0,0.0}});
 				fig5.yGridOn();
 				fig5.xGridOn();
-				fig5.setYLabel("Velocity (ft/sec)");
+				fig5.setYLabel("accel (ft^2/sec)");
 				fig5.setXLabel("time (seconds)");
-				fig5.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-				fig5.addData(quinticPath.rightVel, Color.magenta);
-				fig5.addData(quinticPath.leftVel, Color.cyan);
-//				
-//				
-//				//Velocity
-//				FalconLinePlot fig5 = new FalconLinePlot(new double[][]{{0.0,0.0}});
-//				fig5.yGridOn();
-//				fig5.xGridOn();
-//				fig5.setYLabel("accel (ft^2/sec)");
-//				fig5.setXLabel("time (seconds)");
-//				fig5.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-//				fig5.addData(quinticPath.rightAccel, Color.magenta);
-//				fig5.addData(quinticPath.leftAccel, Color.cyan);
-//				
-//				
+				fig5.setTitle("Acceleration Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
+				fig5.addData(quinticPath.rightAccel, Color.magenta);
+				fig5.addData(quinticPath.leftAccel, Color.cyan);
+				
 
 		
 	}
@@ -325,9 +315,9 @@ public class QuinticTrajectory
 //	    config.max_jerk = 30.0*12;
 //	    config.max_vel = 10.0*12;
 	    
-	    config.max_vel = 8.0*12;
-	    config.max_acc = 2.0*12;
-	    config.max_jerk = 70.0*12;
+	    config.max_vel = 3.0*12;
+	    config.max_acc = 3.0*12;
+	    config.max_jerk = 30.0*12;
 	    
 	    
 	}

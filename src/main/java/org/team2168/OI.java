@@ -99,10 +99,10 @@ public class OI {
 	public static F310 driverJoystick = new F310(RobotMap.DRIVER_JOYSTICK);
 	public static F310 operatorJoystick = new F310(RobotMap.OPERATOR_JOYSTICK);
 
-	public static F310 driverOperatorEJoystick = new F310(RobotMap.DRIVER_OPERATOR_E_BACKUP);
+	// public static F310 driverOperatorEJoystick = new F310(RobotMap.DRIVER_OPERATOR_E_BACKUP);
 
-	public static F310 testJoystick = new F310(RobotMap.COMMANDS_TEST_JOYSTICK);
-	public static F310 pidTestJoystick = new F310(RobotMap.PID_TEST_JOYSTICK);
+	// public static F310 testJoystick = new F310(RobotMap.COMMANDS_TEST_JOYSTICK);
+	 public static F310 pidTestJoystick = new F310(RobotMap.PID_TEST_JOYSTICK);
 	private static LinearInterpolator gunStyleInterpolator;
 	private double[][] gunStyleArray = {{-1.0, -1.0},
 	                                    {-.15,0.0},
@@ -128,14 +128,14 @@ public class OI {
 		 *                         Operator Joystick         		              *
 		  *************************************************************************/
 
-		pidTestJoystick.ButtonLeftTrigger().whenPressed(new OpenIntake());
-		pidTestJoystick.ButtonLeftBumper().whenPressed(new CloseIntake());
+		// pidTestJoystick.ButtonLeftTrigger().whenPressed(new OpenIntake());
+		// pidTestJoystick.ButtonLeftBumper().whenPressed(new CloseIntake());
 		
-		pidTestJoystick.ButtonUpDPad().whenReleased(new PivotIntakeUp());
-		pidTestJoystick.ButtonDownDPad().whenReleased(new PivotIntakeDown());
+		// pidTestJoystick.ButtonUpDPad().whenReleased(new PivotIntakeUp());
+		// pidTestJoystick.ButtonDownDPad().whenReleased(new PivotIntakeDown());
 		
-		pidTestJoystick.ButtonRightDPad().whenPressed(new EngageIntakePivotHardStop());
-		pidTestJoystick.ButtonLeftDPad().whenPressed(new DisEngageIntakePivotHardStop());
+		// pidTestJoystick.ButtonRightDPad().whenPressed(new EngageIntakePivotHardStop());
+		// pidTestJoystick.ButtonLeftDPad().whenPressed(new DisEngageIntakePivotHardStop());
 		//Start will be climb
 		//operatorJoystick.ButtonStart().whenPressed(new CloseDownGuidingArm());
 		//operatorJoystick.ButtonStart().whenPressed(new LiftShiftLow());
@@ -261,32 +261,32 @@ public class OI {
 		//pidTestJoystick.ButtonY().whenPressed(new DriveToLeftScaleFromLeftSide());
 	//	pidTestJoystick.ButtonA().whileHeld(new  DrivePIDPathQuintic(0, -45, 2500, 3000, 30000));//rotate A to B
 	//	pidTestJoystick.ButtonB().whileHeld(new  DrivePIDPathQuintic(90, 90, 2500, 3000, 30000));//rotate A to B
-		//pidTestJoystick.ButtonB().whenPressed(new RotateXDistancePIDZZZ(142,0.6,0.2,0.5,true));
+	// 	//pidTestJoystick.ButtonB().whenPressed(new RotateXDistancePIDZZZ(142,0.6,0.2,0.5,true));
 		pidTestJoystick.ButtonA().whenPressed(new Drive14FeetForward_9FeetLeft());
 		pidTestJoystick.ButtonB().whenPressed(new Drive10FeetBackward());
 		
-	//	pidTestJoystick.ButtonY().whileHeld(new DriveIntakeWheelsWithConstant(-0.5));
-		//pidTestJoystick.ButtonY().whenPressed(new DriveLiftPIDZZZ(74.0, 0.9, 0.1,1.0,true));
+	// //	pidTestJoystick.ButtonY().whileHeld(new DriveIntakeWheelsWithConstant(-0.5));
+	// 	//pidTestJoystick.ButtonY().whenPressed(new DriveLiftPIDZZZ(74.0, 0.9, 0.1,1.0,true));
 		
-	//	pidTestJoystick.ButtonX().whenPressed(new DriveLiftPIDZZZ(1.5, 0.7, 0.3,1.0,true));
+	// //	pidTestJoystick.ButtonX().whenPressed(new DriveLiftPIDZZZ(1.5, 0.7, 0.3,1.0,true));
 		
 		
-		//pidTestJoystick.ButtonUpDPad().whenPressed(new DriveLiftPIDZZZ(2.0, 0.5, 0.16,1.0,true));
+	// 	//pidTestJoystick.ButtonUpDPad().whenPressed(new DriveLiftPIDZZZ(2.0, 0.5, 0.16,1.0,true));
 		
-		//Light Testing//////////////////////////////////////////////////////// 
+	// 	//Light Testing//////////////////////////////////////////////////////// 
 		
-		testJoystick.ButtonA().whenPressed(new DisabledPattern());
-		testJoystick.ButtonB().whenPressed(new TeleopWithoutCube());
-		testJoystick.ButtonX().whenPressed(new AutoWithoutCube());
-		testJoystick.ButtonY().whenPressed(new ClimbingPattern());
-		testJoystick.ButtonLeftTrigger().whenPressed(new DisconnectPattern());
-		testJoystick.ButtonLeftBumper().whenPressed(new ForksDeployedPattern());
-		testJoystick.ButtonRightBumper().whenPressed(new LiftHigh());
-		testJoystick.ButtonRightTrigger().whenPressed(new LiftMed());
-		testJoystick.ButtonDownDPad().whenPressed(new LiftLow());
-		testJoystick.ButtonLeftDPad().whenPressed(new SpitPattern());
-		testJoystick.ButtonRightDPad().whenPressed(new SuckPattern());
-		testJoystick.ButtonUpDPad().whenPressed(new WithCubePattern());
+	// 	testJoystick.ButtonA().whenPressed(new DisabledPattern());
+	// 	testJoystick.ButtonB().whenPressed(new TeleopWithoutCube());
+	// 	testJoystick.ButtonX().whenPressed(new AutoWithoutCube());
+	// 	testJoystick.ButtonY().whenPressed(new ClimbingPattern());
+	// 	testJoystick.ButtonLeftTrigger().whenPressed(new DisconnectPattern());
+	// 	testJoystick.ButtonLeftBumper().whenPressed(new ForksDeployedPattern());
+	// 	testJoystick.ButtonRightBumper().whenPressed(new LiftHigh());
+	// 	testJoystick.ButtonRightTrigger().whenPressed(new LiftMed());
+	// 	testJoystick.ButtonDownDPad().whenPressed(new LiftLow());
+	// 	testJoystick.ButtonLeftDPad().whenPressed(new SpitPattern());
+	// 	testJoystick.ButtonRightDPad().whenPressed(new SuckPattern());
+	// 	testJoystick.ButtonUpDPad().whenPressed(new WithCubePattern());
 		
 		
 	}
@@ -324,7 +324,7 @@ public class OI {
 	}
 
 	public static double getDriveLiftJoystickValue() {
-		return operatorJoystick.getLeftStickRaw_Y() + pidTestJoystick.getLeftStickRaw_Y();
+		return 0;//operatorJoystick.getLeftStickRaw_Y() + pidTestJoystick.getLeftStickRaw_Y();
 	}
 
 	public static double getDriveIntakeWheelsJoystickValue() {
@@ -332,19 +332,19 @@ public class OI {
 	}
 
 	public static double getDriveIntakePivotJoystickValue() {
-		return testJoystick.getRightStickRaw_Y();
-	}
-
-	public static double getGunStyleYValue() {
-		// return
-		// gunStyleInterpolator.interpolate(Robot.oi.driverJoystick.getLeftStickRaw_X());
-		return driverJoystick.getLeftStickRaw_Y();
+		return 0;//testJoystick.getRightStickRaw_Y();
 	}
 
 	public static double getGunStyleXValue() {
 		// return
 		// gunStyleInterpolator.interpolate(Robot.oi.driverJoystick.getLeftStickRaw_X());
-		return -gunStyleInterpolator.interpolate(driverJoystick.getLeftStickRaw_X());
+		return driverJoystick.getLeftStickRaw_X();
+	}
+
+	public static double getGunStyleYValue() {
+		// return
+		// gunStyleInterpolator.interpolate(Robot.oi.driverJoystick.getLeftStickRaw_X());
+		return gunStyleInterpolator.interpolate(driverJoystick.getLeftStickRaw_Y());
 	}
 	public static double getDriveWinchJoystickValue() {
 		// return

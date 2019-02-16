@@ -30,7 +30,7 @@ public class DrivePIDPathQuinticPID extends Command {
 	double jMax =15000.0;
 
 	int counter;
-	double ff_term = 0.09;
+	double ff_term = 0.037;
 	double oldClock;
 	double angle;
 	double lastRotateOutput;
@@ -365,6 +365,14 @@ public class DrivePIDPathQuinticPID extends Command {
 			Robot.drivetrain.rightPosController.reset();
 			Robot.drivetrain.rightPosController.Enable();
 			Robot.drivetrain.rightPosController.setSetPoint(this.setPointRightPos);
+
+			Robot.drivetrain.leftSpeedController.reset();
+			Robot.drivetrain.leftSpeedController.Enable();
+			Robot.drivetrain.leftSpeedController.setSetPoint(this.setPointLeftVel);
+
+			Robot.drivetrain.rightSpeedController.reset();
+			Robot.drivetrain.rightSpeedController.Enable();
+			Robot.drivetrain.rightSpeedController.setSetPoint(this.setPointRightVel);
 		}
 
 		Robot.drivetrain.rotateDriveStraightController.reset();
@@ -441,13 +449,7 @@ public class DrivePIDPathQuinticPID extends Command {
 			//Robot.drivetrain.tankDrive(speedLeft+leftPID,speedRight+rightPID);
 			counter++;
 
-			SmartDashboard.putNumber("LeftPIDPosOut", leftPID);
-			SmartDashboard.putNumber("RightPIDPosOut", rightPID);
-			SmartDashboard.putNumber("DriveArrayLeftSpeed", speedLeft);
-			SmartDashboard.putNumber("DriveArrayRightSpeed", speedRight);
-			SmartDashboard.putNumber("DriveLeftArrayPosition", Robot.drivetrain.leftPosController.getSetPoint());
-			SmartDashboard.putNumber("DriveArrayHeadingSetPoint", Robot.drivetrain.rotateDriveStraightController.getControlOutput());
-		}
+					}
 		else
 		{
 			Robot.drivetrain.tankDrive(0.0,0.0);

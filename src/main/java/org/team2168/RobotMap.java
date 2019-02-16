@@ -196,7 +196,7 @@ public class RobotMap {
 	private static final int DRIVE_PULSE_PER_ROTATION = 256; // encoder ticks per rotation
 	// TODO find ratio
 	private static final double DRIVE_GEAR_RATIO = 1.0 / 1.0; // ratio between wheel over encoder
-	private static final double DRIVE_WHEEL_DIAMETER = 6.08;   //6.0;
+	private static final double DRIVE_WHEEL_DIAMETER = 6.15;   //6.0, 5.8925;
 	public static final int DRIVE_ENCODER_PULSE_PER_ROT = (int) (DRIVE_PULSE_PER_ROTATION * DRIVE_GEAR_RATIO); // pulse
 																												// per
 																												// rotation
@@ -304,8 +304,8 @@ public class RobotMap {
 	public static final long DRIVE_TRAIN_PID_PERIOD = 20;// 70ms loop
 	public static final int DRIVE_TRAIN_PID_ARRAY_SIZE = 30;
 	
-	public static final double DRIVE_TRAIN_MIN_FWD_VOLTAGE = 1.8;//volts
-	public static final double DRIVE_TRAIN_MIN_RVD_VOLTAGE = 1.2;//volts
+	public static final double DRIVE_TRAIN_MIN_FWD_VOLTAGE = 0.0;//1.8;//volts
+	public static final double DRIVE_TRAIN_MIN_RVD_VOLTAGE = 0.0;//1.2;//volts
 	
 	public static final double DRIVE_TRAIN_MIN_ROT_CLOCKWISE_VOLTAGE = 1.45;//volts
 	public static final double DRIVE_TRAIN_MIN_ROT_COUNTCLOCKWISE_VOLTAGE = 1.45;//volts
@@ -333,10 +333,9 @@ public class RobotMap {
 	public static final double ROTATE_POSITION_I = 0.0025;
 	public static final double ROTATE_POSITION_D = 0.0;
 	
-	public static final double ROTATE_POSITION_P_Drive_Straight = 0.055; //0.055 comp
-	public static final double ROTATE_POSITION_I_Drive_Straight = 0.001; //0.001
-	public static final double ROTATE_POSITION_D_Drive_Straight = 0.0064778888124088;
-	
+	public static final double ROTATE_POSITION_P_Drive_Straight = 0.09; //0.055 comp
+	public static final double ROTATE_POSITION_I_Drive_Straight = 0.002; //0.001
+	public static final double ROTATE_POSITION_D_Drive_Straight = 0.001;
 	
 
 	public static final double LIFT_P = 0.024;
@@ -363,7 +362,7 @@ public class RobotMap {
 	/******************************************************************
 	 *                         ConsolePrinter PARAMETERS              *
 	 ******************************************************************/
-	public static final boolean PRINT_SD_DEBUG_DATA = true;
+	public static final boolean PRINT_SD_DEBUG_DATA = false;
 	public static final long SmartDashThreadPeriod = 100; // ms
 	public static final long CONSOLE_PRINTER_LOG_RATE_MS = 100; // ms
 

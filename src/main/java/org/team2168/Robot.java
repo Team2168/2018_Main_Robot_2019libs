@@ -289,7 +289,7 @@ double[][] wpPath = new double[][] {
 	//			{0.0, 90.0, 0},
 	
 				{0, 0.0, 0},
-				{120.0, 0.0, 0}
+				{180.0, 0.0, 0}
 			};
 	
 			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, false);
@@ -607,7 +607,7 @@ double[][] wpPath = new double[][] {
 		}
 		
 		
-		LiveWindow.disableAllTelemetry();
+		//LiveWindow.();
 		
 	}
 	
@@ -628,7 +628,7 @@ double[][] wpPath = new double[][] {
 	{
 		autoMode = false;
 		matchStarted = false;
-		Robot.i2c.write(8, 4);
+		//Robot.i2c.write(8, 4);
 		
 		//If we are not in a match allow Gyro to be recalibrated in Disabled even if a previous 
 		//calibration was performed, we disable this in a match so that if we ever die in a match,
@@ -637,8 +637,10 @@ double[][] wpPath = new double[][] {
 			drivetrain.startGyroCalibrating();
 		
 		drivetrain.calibrateGyro();
-		callArduino();
+		//callArduino();
 		//i2c.write(8, 0);
+
+		LiveWindow.disableAllTelemetry();
 		
 		
 	}
@@ -648,7 +650,7 @@ double[][] wpPath = new double[][] {
 
 		//Keep track of Gunstyle Controller Variables
 		
-		callArduino();
+		//callArduino();
 		controlStyle = (int) controlStyleChooser.getSelected();
 		autoPriority = (int) autoPriorityChooser.getSelected();
 		autonomousCommand = (Command) autoChooser.getSelected();
@@ -730,8 +732,8 @@ double[][] wpPath = new double[][] {
 	        Scheduler.getInstance().run();
 	        
 	        controlStyle = (int) controlStyleChooser.getSelected();
-	        updateLights();
-	        callArduino();
+	        //updateLights();
+	        //callArduino();
 	        //Robot.i2c.write(8, 97);
 	        
 	        	
@@ -839,10 +841,10 @@ double[][] wpPath = new double[][] {
 		public void controlStyleSelectInit() {
 			controlStyleChooser = new SendableChooser<>();
 			controlStyleChooser.addObject("Tank Drive", 0);
-			controlStyleChooser.addObject("Gun Style Controller", 1);
+			controlStyleChooser.addDefault("Gun Style Controller", 1);
 			controlStyleChooser.addObject("Arcade Drive", 2);
 			controlStyleChooser.addObject("GTA Drive", 3);
-			controlStyleChooser.addDefault("Gun Style (new)", 4);
+			controlStyleChooser.addObject("Gun Style (new)", 4);
 		}
 
 		public static int getControlStyleInt() {
