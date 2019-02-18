@@ -759,7 +759,17 @@ public class QuinticTrajectory
 		 
 		  return this.rightVel;
 	  }
+
+	  public double[] getLeftAcc()
+	  {
+		  return this.leftAcc;
+	  }
 	  
+	  public double[] getRightAcc()
+	  {
+		  return this.rightAcc;
+	  }
+
 	  public double[] getHeadingDeg()
 	  {
 		  return this.heading;

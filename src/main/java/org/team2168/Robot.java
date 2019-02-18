@@ -134,19 +134,25 @@ public class Robot extends TimedRobot
 	public static double[] leftVelQuinticPath;
     public static double[] rightVelQuinticPath;
     public static double[] leftPosQuinticPath;
-    public static double[] rightPosQuinticPath;
+	public static double[] rightPosQuinticPath;
+	public static double[] leftAccQuinticPath;
+	public static double[] rightAccQuinticPath;
 	public static double[] headingQuinticPath;
 	
     public static double[] leftVelQuinticPath2;
     public static double[] rightVelQuinticPath2;
     public static double[] leftPosQuinticPath2;
-    public static double[] rightPosQuinticPath2;
+	public static double[] rightPosQuinticPath2;
+	public static double[] leftAccQuinticPath2;
+	public static double[] rightAccQuinticPath2;
     public static double[] headingQuinticPath2;
 
     public static double[] leftVelQuinticPath3;
     public static double[] rightVelQuinticPath3;
     public static double[] leftPosQuinticPath3;
-    public static double[] rightPosQuinticPath3;
+	public static double[] rightPosQuinticPath3;
+	public static double[] leftAccQuinticPath3;
+	public static double[] rightAccQuinticPath3;
     public static double[] headingQuinticPath3;
 
 	 /**************************************************
@@ -277,7 +283,10 @@ double[][] wpPath = new double[][] {
 			this.rightPosQuinticPath = qPath.getRightPos();
 			this.leftVelQuinticPath = qPath.getLeftVel();
 			this.rightVelQuinticPath = qPath.getRightVel();
+			this.leftAccQuinticPath = qPath.getLeftAcc();
+			this.rightAccQuinticPath = qPath.getRightAcc();
 			this.headingQuinticPath = qPath.getHeadingDeg();
+			
 	
 			double[][] wpPath2 = new double[][] {
 	
