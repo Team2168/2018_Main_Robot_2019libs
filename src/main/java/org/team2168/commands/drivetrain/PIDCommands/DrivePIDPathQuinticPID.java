@@ -58,6 +58,8 @@ public class DrivePIDPathQuinticPID extends Command {
 		this.setPointLeftPos = motion.getPosArray();
 		this.setPointRightPos = motion.getPosArray();
 		this.setPointRightVel = motion.getVelArray();
+		this.setPointLeftAcc = motion.getAccelArray();
+		this.setPointRightAcc = motion.getAccelArray();
 		this.direction = reverseDirection;
 		this.positonGiven = true;
 		SmartDashboard.putNumber("VFF_term", 0);
@@ -131,7 +133,7 @@ public class DrivePIDPathQuinticPID extends Command {
 	}
 
 
-	public DrivePIDPathQuinticPID(double[] setPointLeftPos, double[] setPointRightPos,double[] setPointLeftVel, double[] setPointRightVel, double[] setPointLeftAcc, double[] setPointRightAcc, double[] setPointHeading){
+	public DrivePIDPathQuinticPID(double[] setPointLeftPos, double[] setPointRightPos, double[] setPointLeftVel, double[] setPointRightVel, double[] setPointLeftAcc, double[] setPointRightAcc, double[] setPointHeading){
 		requires(Robot.drivetrain);
 
 		this.positonGiven = true;
@@ -141,7 +143,10 @@ public class DrivePIDPathQuinticPID extends Command {
 		this.setPointRightPos = setPointRightPos;
 		this.setPointLeftVel =setPointLeftVel;
 		this.setPointRightVel = setPointRightVel;
+		this.setPointLeftAcc = setPointLeftAcc;
+		this.setPointRightAcc = setPointRightAcc;
 		this.setPointHeading = setPointHeading;
+	
 
 		this.headingByArray= true;
 

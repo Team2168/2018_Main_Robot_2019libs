@@ -146,7 +146,7 @@ public class Robot extends TimedRobot
 	public static double[] leftAccQuinticPath2;
 	public static double[] rightAccQuinticPath2;
     public static double[] headingQuinticPath2;
-
+                                   
     public static double[] leftVelQuinticPath3;
     public static double[] rightVelQuinticPath3;
     public static double[] leftPosQuinticPath3;
@@ -308,6 +308,8 @@ double[][] wpPath = new double[][] {
 			this.rightPosQuinticPath2 = qPath2.getRightPos();
 			this.leftVelQuinticPath2 = qPath2.getLeftVel();
 			this.rightVelQuinticPath2 = qPath2.getRightVel();
+			this.leftAccQuinticPath2 = qPath2.getLeftAcc();
+			this.rightAccQuinticPath2 = qPath2.getRightAcc();
 			this.headingQuinticPath2 = qPath2.getHeadingDeg();
 	
 			double[][] wpPath3 = new double[][] {
@@ -331,6 +333,8 @@ double[][] wpPath = new double[][] {
 			this.rightPosQuinticPath3 = qPath3.getRightPos();
 			this.leftVelQuinticPath3 = qPath3.getLeftVel();
 			this.rightVelQuinticPath3 = qPath3.getRightVel();
+			this.leftAccQuinticPath3 = qPath3.getLeftAcc();
+			this.rightAccQuinticPath3 = qPath3.getRightAcc();
 			this.headingQuinticPath3 = qPath3.getHeadingDeg();
 
 /********************************************************
