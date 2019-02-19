@@ -1,6 +1,5 @@
 package org.team2168.subsystems;
 
-
 import org.team2168.Robot;
 import org.team2168.RobotMap;
 import org.team2168.PID.controllers.PIDPosition;
@@ -8,6 +7,7 @@ import org.team2168.PID.controllers.PIDSpeed;
 import org.team2168.PID.sensors.ADXRS453Gyro;
 import org.team2168.PID.sensors.AverageEncoder;
 import org.team2168.PID.sensors.IMU;
+import org.team2168.PID.sensors.Limelight;
 import org.team2168.commands.drivetrain.DriveWithJoystick;
 import org.team2168.utils.TCPSocketSender;
 import org.team2168.utils.consoleprinter.ConsolePrinter;
@@ -49,6 +49,7 @@ public class Drivetrain extends Subsystem {
 	private double leftMotor1FPS;
 	private double lefttMotor1FPS;
 	public IMU imu;
+	public Limelight limelight;
 	
 
 	// declare position/speed controllers
@@ -282,6 +283,16 @@ public class Drivetrain extends Subsystem {
 		ConsolePrinter.putNumber("Left Motor Two Command", () -> {return leftMotor2.get();}, true, true);
 		
 		ConsolePrinter.putNumber("Drivetrain raw sonar", () -> {return Robot.drivetrain.getSonarVoltage();}, true, false);
+
+		// Testing only
+		ConsolePrinter.putNumber("Vision Target Bearing", () -> {return Robot.drivetrain.limelight.getTargetBearing();}, true, false);
+		ConsolePrinter.putNumber("Vision Target Area", () -> {return Robot.drivetrain.limelight.getTargetArea();}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 1", () -> {return Robot.drivetrain.limelight.getTargetPosition()[0];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 2", () -> {return Robot.drivetrain.limelight.getTargetPosition()[1];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 3", () -> {return Robot.drivetrain.limelight.getTargetPosition()[2];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 4", () -> {return Robot.drivetrain.limelight.getTargetPosition()[3];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 5", () -> {return Robot.drivetrain.limelight.getTargetPosition()[4];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 6", () -> {return Robot.drivetrain.limelight.getTargetPosition()[5];}, true, false);
 	}
 
 	/**
