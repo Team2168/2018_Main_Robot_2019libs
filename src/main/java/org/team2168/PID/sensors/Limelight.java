@@ -3,6 +3,8 @@ package org.team2168.PID.sensors;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import org.team2168.utils.consoleprinter.ConsolePrinter;
+import org.team2168.Robot;
 
 public class Limelight
 {
@@ -19,7 +21,7 @@ public class Limelight
     /**
      * Default constructor
      */
-    private Limelight()
+    public Limelight()
     {
         // Variables to get data from Limelight
         networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -35,7 +37,17 @@ public class Limelight
         // Sets the camera controls
         ledMode.setNumber(0);
         camMode.setNumber(0);
-        pipeline.setNumber(0);
+        pipeline.setNumber(4);
+
+        // Testing only
+		ConsolePrinter.putNumber("Vision Target Bearing", () -> {return Robot.drivetrain.limelight.getTargetBearing();}, true, false);
+		ConsolePrinter.putNumber("Vision Target Area", () -> {return Robot.drivetrain.limelight.getTargetArea();}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 1", () -> {return Robot.drivetrain.limelight.getTargetPosition()[0];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 2", () -> {return Robot.drivetrain.limelight.getTargetPosition()[1];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 3", () -> {return Robot.drivetrain.limelight.getTargetPosition()[2];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 4", () -> {return Robot.drivetrain.limelight.getTargetPosition()[3];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 5", () -> {return Robot.drivetrain.limelight.getTargetPosition()[4];}, true, false);
+		ConsolePrinter.putNumber("Vision Target Position 6", () -> {return Robot.drivetrain.limelight.getTargetPosition()[5];}, true, false);
     }
 
     /**
