@@ -1,5 +1,9 @@
 package org.team2168.subsystems;
 
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import org.team2168.Robot;
 import org.team2168.RobotMap;
 import org.team2168.PID.controllers.PIDPosition;
@@ -14,12 +18,12 @@ import org.team2168.utils.consoleprinter.ConsolePrinter;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem class for the Drivetrain
@@ -35,8 +39,8 @@ public class Drivetrain extends Subsystem {
 	private static SpeedController rightMotor2;
 	private static SpeedController rightMotor3;
 
-	private static boolean INVERT_LINE_SENSOR = true; //Line sensor uses negative logic (false = detected)
-	
+	private static boolean INVERT_LINE_SENSOR = true; // Line sensor uses negative logic (false = detected)
+
 	private ADXRS453Gyro gyroSPI;
 	private AverageEncoder drivetrainLeftEncoder;
 	private AverageEncoder drivetrainRightEncoder;
@@ -57,6 +61,8 @@ public class Drivetrain extends Subsystem {
 	public PIDPosition rotateController;
 	public PIDPosition rotateDriveStraightController;
 	
+	public PIDPosition rightPosController;
+	public PIDPosition leftPosController;
 
 	// declare speed controllers
 	public PIDSpeed rightSpeedController;
@@ -70,6 +76,8 @@ public class Drivetrain extends Subsystem {
 	TCPSocketSender TCPrightSpeedController;
 	TCPSocketSender TCPleftSpeedController;
 	TCPSocketSender TCProtateController;
+	TCPSocketSender TCPleftPosController;
+	TCPSocketSender TCPrightPosController;
 
 	public volatile double leftMotor1Voltage;
 	public volatile double leftMotor2Voltage;
@@ -78,6 +86,8 @@ public class Drivetrain extends Subsystem {
 	public volatile double rightMotor2Voltage;
 	public volatile double rightMotor3Voltage;
 
+	double runTime = Timer.getFPGATimestamp();
+
 
 	/**
 	 * Default constructors for Drivetrain
@@ -85,7 +95,7 @@ public class Drivetrain extends Subsystem {
 	private Drivetrain() {
 		if (Robot.isPracticeRobot())
 		{
-		  System.out.println("Practice Bot Drivetrain enabled");
+		  System.out.println("PWM Practice Bot Drivetrain enabled");
 		  leftMotor1 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_1);
 		  leftMotor2 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_2);
 		  leftMotor3 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_3);
@@ -98,20 +108,27 @@ public class Drivetrain extends Subsystem {
 		{
 		  System.out.println("CAN Drivetrain enabled");
 		  leftMotor1 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_LEFT_1, MotorType.kBrushless);
-		  leftMotor2 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_LEFT_2,MotorType.kBrushless);
+		  //leftMotor2 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_LEFT_2,MotorType.kBrushless);
 		  leftMotor3 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_LEFT_3,MotorType.kBrushless);
-		  rightMotor1 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_RIGHT_1,MotorType.kBrushless);
+		  //rightMotor1 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_RIGHT_1,MotorType.kBrushless);
 		  rightMotor2 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_RIGHT_2,MotorType.kBrushless);
 		  rightMotor3 = new CANSparkMax(RobotMap.DT_MAX_CAN_ID_RIGHT_3,MotorType.kBrushless);
+	
+		// leftMotor1.setCANTimeout(100);
+		// leftMotor3.setCANTimeout(100);
+		// rightMotor2.setCANTimeout(100);
+		// rightMotor3.setCANTimeout(100);  
+		
 		}
 		else 
 		{
-		  leftMotor1 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_1);
-		  leftMotor2 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_2);
-		  leftMotor3 = new VictorSP(RobotMap.LEFT_DRIVE_MOTOR_3);
-		  rightMotor1 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_1);
-		  rightMotor2 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_2);
-		  rightMotor3 = new VictorSP(RobotMap.RIGHT_DRIVE_MOTOR_3);
+		  System.out.println("PWM Comp Drivetrain enabled");
+		  leftMotor1 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_1);
+		  leftMotor2 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_2);
+		  leftMotor3 = new Spark(RobotMap.LEFT_DRIVE_MOTOR_3);
+		  rightMotor1 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_1);
+		  rightMotor2 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_2);
+		  rightMotor3 = new Spark(RobotMap.RIGHT_DRIVE_MOTOR_3);
   }
 		
 		drivetrainRightEncoder = new AverageEncoder(
@@ -190,9 +207,30 @@ public class Drivetrain extends Subsystem {
 				drivetrainLeftEncoder,
 				RobotMap.DRIVE_TRAIN_PID_PERIOD);
 
+			// Spawn new PID Controller
+		rightPosController = new PIDPosition(
+				"rightPosController", 
+				RobotMap.DRIVE_TRAIN_RIGHT_POSITION_P,
+				RobotMap.DRIVE_TRAIN_RIGHT_POSITION_I, 
+				RobotMap.DRIVE_TRAIN_RIGHT_POSITION_D, 
+				1, 
+				drivetrainRightEncoder,
+				RobotMap.DRIVE_TRAIN_PID_PERIOD);
+
+		leftPosController = new PIDPosition(
+				"leftPosController", 
+				RobotMap.DRIVE_TRAIN_LEFT_POSITION_P,
+				RobotMap.DRIVE_TRAIN_LEFT_POSITION_I, 
+				RobotMap.DRIVE_TRAIN_LEFT_POSITION_D, 
+				1, 
+				drivetrainLeftEncoder,
+				RobotMap.DRIVE_TRAIN_PID_PERIOD);
+
 		// add min and max output defaults and set array size
 		rightSpeedController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
 		leftSpeedController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
+		rightPosController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
+		leftPosController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
 		driveTrainPosController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
 		rotateController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
 		rotateDriveStraightController.setSIZE(RobotMap.DRIVE_TRAIN_PID_ARRAY_SIZE);
@@ -201,6 +239,8 @@ public class Drivetrain extends Subsystem {
 		// start controller threads
 		rightSpeedController.startThread();
 		leftSpeedController.startThread();
+		rightPosController.startThread();
+		leftPosController.startThread();
 		driveTrainPosController.startThread();
 		rotateController.startThread();
 		rotateDriveStraightController.startThread();
@@ -209,12 +249,17 @@ public class Drivetrain extends Subsystem {
 		TCPdrivePosController = new TCPSocketSender(RobotMap.TCP_SERVER_DRIVE_TRAIN_POS, driveTrainPosController);
 		TCPdrivePosController.start();
 
-		TCPrightSpeedController = new TCPSocketSender(RobotMap.TCO_SERVER_RIGHT_DRIVE_TRAIN_SPEED,
-				rightSpeedController);
+		TCPrightSpeedController = new TCPSocketSender(RobotMap.TCO_SERVER_RIGHT_DRIVE_TRAIN_SPEED, rightSpeedController);
 		TCPrightSpeedController.start();
 
 		TCPleftSpeedController = new TCPSocketSender(RobotMap.TCP_SERVER_LEFT_DRIVE_TRAIN_SPEED, leftSpeedController);
 		TCPleftSpeedController.start();
+
+		TCPrightPosController = new TCPSocketSender(RobotMap.TCO_SERVER_RIGHT_DRIVE_TRAIN_POSITION, rightPosController);
+		TCPrightPosController.start();
+
+		TCPleftPosController = new TCPSocketSender(RobotMap.TCP_SERVER_LEFT_DRIVE_TRAIN_POSITION, leftPosController);
+		TCPleftPosController.start();
 
 		TCProtateController = new TCPSocketSender(RobotMap.TCP_SERVER_ROTATE_CONTROLLER, rotateController);
 		TCProtateController.start();
@@ -230,7 +275,7 @@ public class Drivetrain extends Subsystem {
 		rightMotor1Voltage = 0;
 		rightMotor2Voltage = 0;
 		
-	
+  		limelight = new Limelight();
 
 		// Log sensor data
 		
@@ -276,23 +321,13 @@ public class Drivetrain extends Subsystem {
 		
 //		ConsolePrinter.putBoolean("Is line detected?", () -> {return getLinedectorStatus();}, true, false);
 		
-		ConsolePrinter.putNumber("Right Motor One Command", () -> {return rightMotor1.get();}, true, true);
-		ConsolePrinter.putNumber("Right Motor Two Command", () -> {return rightMotor2.get();}, true, true);
+		// ConsolePrinter.putNumber("Right Motor One Command", () -> {return rightMotor1.get();}, true, true);
+		// ConsolePrinter.putNumber("Right Motor Two Command", () -> {return rightMotor2.get();}, true, true);
 		
-		ConsolePrinter.putNumber("Left Motor One Command", () -> {return leftMotor1.get();}, true, true);
-		ConsolePrinter.putNumber("Left Motor Two Command", () -> {return leftMotor2.get();}, true, true);
+		// ConsolePrinter.putNumber("Left Motor One Command", () -> {return leftMotor1.get();}, true, true);
+		// ConsolePrinter.putNumber("Left Motor Two Command", () -> {return leftMotor2.get();}, true, true);
 		
 		ConsolePrinter.putNumber("Drivetrain raw sonar", () -> {return Robot.drivetrain.getSonarVoltage();}, true, false);
-
-		// Testing only
-		ConsolePrinter.putNumber("Vision Target Bearing", () -> {return Robot.drivetrain.limelight.getTargetBearing();}, true, false);
-		ConsolePrinter.putNumber("Vision Target Area", () -> {return Robot.drivetrain.limelight.getTargetArea();}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 1", () -> {return Robot.drivetrain.limelight.getTargetPosition()[0];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 2", () -> {return Robot.drivetrain.limelight.getTargetPosition()[1];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 3", () -> {return Robot.drivetrain.limelight.getTargetPosition()[2];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 4", () -> {return Robot.drivetrain.limelight.getTargetPosition()[3];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 5", () -> {return Robot.drivetrain.limelight.getTargetPosition()[4];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 6", () -> {return Robot.drivetrain.limelight.getTargetPosition()[5];}, true, false);
 	}
 
 	/**
@@ -364,7 +399,7 @@ public class Drivetrain extends Subsystem {
 	 */
 	public void driveLeft(double speed) {
 		driveleftMotor1(speed);
-		driveleftMotor2(speed);
+		//driveleftMotor2(speed);
 		driveleftMotor3(speed);
 	}
 
@@ -419,7 +454,7 @@ public class Drivetrain extends Subsystem {
 	 *            forward, 0 is stationary
 	 */
 	public void driveRight(double speed) {
-		driverightMotor1(speed);
+		//driverightMotor1(speed);
 		driverightMotor2(speed);
 		driverightMotor3(speed);
 	}
@@ -456,9 +491,11 @@ public class Drivetrain extends Subsystem {
 				rightSpeed = rightSpeed * 0.3;
 			}
 		}
-			
+		
+	    runTime = Timer.getFPGATimestamp();	
 		driveLeft(leftSpeed);
 		driveRight(rightSpeed);
+		SmartDashboard.putNumber("TankDriveSetCanTime", Timer.getFPGATimestamp()-runTime);
 	}
 
 	/**

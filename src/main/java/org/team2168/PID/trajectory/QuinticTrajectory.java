@@ -74,10 +74,13 @@ public class QuinticTrajectory
 	public double[][] leftJerk;
 	public double[] heading;
 
+	public double[] rightAcc;
+	public double[] leftAcc;
+
 	private static PrintWriter log;
 
-	//private static String directory = "/home/lvuser/Path/";
-	private static String directory = "Path/";
+	private static String directory = "/home/lvuser/Path/";
+	//private static String directory = "Path/";
 
 	
 	public boolean reverse = false;
@@ -108,7 +111,7 @@ public class QuinticTrajectory
 			// {48.0, 0.0, 0},
 			// {96.0, 0.0, 0},
 			{0.0, 90.0, 0},
-			{180.0, 90.0, Math.PI/6},
+			{120.0, 90.0, 0},
 			
 			// {204.0, 21.0, -Math.PI/6},
 			// {263.0, 32.0, Math.PI/3-0.001},
@@ -131,8 +134,9 @@ public class QuinticTrajectory
 		{19, 21.5, -Math.PI/4+0.0001},
 
 	};		
-		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, true);
-		quinticPath.plotPath();
+		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, false);
+		quinticPath.calculate();
+		//quinticPath.plotPath();
 		//System.out.println(quinticPath.traj.toStringEuclidean());
 
 
@@ -284,27 +288,16 @@ public class QuinticTrajectory
 				fig4.addData(quinticPath.rightVelocity, Color.magenta);
 				fig4.addData(quinticPath.leftVelocity, Color.cyan);
 
-				FalconLinePlot fig5 = new FalconLinePlot(new double[]{0.0});
+
+				FalconLinePlot fig5 = new FalconLinePlot(new double[][]{{0.0,0.0}});
 				fig5.yGridOn();
 				fig5.xGridOn();
-				fig5.setYLabel("Velocity (ft/sec)");
+				fig5.setYLabel("accel (ft^2/sec)");
 				fig5.setXLabel("time (seconds)");
-				fig5.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-				fig5.addData(quinticPath.rightVel, Color.magenta);
-				fig5.addData(quinticPath.leftVel, Color.cyan);
-//				
-//				
-//				//Velocity
-//				FalconLinePlot fig5 = new FalconLinePlot(new double[][]{{0.0,0.0}});
-//				fig5.yGridOn();
-//				fig5.xGridOn();
-//				fig5.setYLabel("accel (ft^2/sec)");
-//				fig5.setXLabel("time (seconds)");
-//				fig5.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-//				fig5.addData(quinticPath.rightAccel, Color.magenta);
-//				fig5.addData(quinticPath.leftAccel, Color.cyan);
-//				
-//				
+				fig5.setTitle("Acceleration Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
+				fig5.addData(quinticPath.rightAccel, Color.magenta);
+				fig5.addData(quinticPath.leftAccel, Color.cyan);
+				
 
 		
 	}
@@ -324,7 +317,7 @@ public class QuinticTrajectory
 	    
 	    config.max_vel = 3.0*12;
 	    config.max_acc = 3.0*12;
-	    config.max_jerk = 70.0*12;
+	    config.max_jerk = 30.0*12;
 	    
 	    
 	}
@@ -701,6 +694,8 @@ public class QuinticTrajectory
 		  this.rightPos =  new double[this.leftRightTraj.right.getNumSegments()];
 		  this.heading =  new double[this.leftRightTraj.right.getNumSegments()];
 		  this.time =  new double[this.leftRightTraj.right.getNumSegments()];
+		  this.leftAcc = new double[this.leftRightTraj.right.getNumSegments()];
+		  this.rightAcc = new double[this.leftRightTraj.right.getNumSegments()];
 		  
 		  //copy left
 		  for( int i =0; i < this.leftRightTraj.left.getNumSegments(); i++)
@@ -734,6 +729,9 @@ public class QuinticTrajectory
 			  this.leftJerk[i][1] = this.leftRightTraj.left.getSegment(i).jerk;
 			  this.rightJerk[i][0] = this.leftRightTraj.right.getSegment(i).dt*i;
 			  this.rightJerk[i][1] = this.leftRightTraj.right.getSegment(i).jerk;
+
+			  this.leftAcc[i] = this.leftAccel[i][1];
+			  this.rightAcc[i] = this.rightAccel[i][1];
 			  
 		  }
 	  }
@@ -761,7 +759,17 @@ public class QuinticTrajectory
 		 
 		  return this.rightVel;
 	  }
+
+	  public double[] getLeftAcc()
+	  {
+		  return this.leftAcc;
+	  }
 	  
+	  public double[] getRightAcc()
+	  {
+		  return this.rightAcc;
+	  }
+
 	  public double[] getHeadingDeg()
 	  {
 		  return this.heading;
@@ -780,6 +788,8 @@ public class QuinticTrajectory
 		  double[] temp_rv = new double[heading.length];
 		  double[] temp_rp = new double[heading.length];
 		  double[] temp_lp = new double[heading.length];
+		  double[] temp_la = new double[heading.length];
+		  double[] temp_ra = new double[heading.length];
 
 		//inverting all arrays
 		for(int j=i; j>=0; j--)
@@ -791,6 +801,8 @@ public class QuinticTrajectory
 			temp_rv[j]= -rightVel[i-j];
 			temp_rp[j]= rightPos[i-j];
 			temp_lp[j]= leftPos[i-j];
+			temp_la[j] = -leftAcc[i-j];
+			temp_ra[j] = -rightAcc[i-j];
 			
 			
 		}
@@ -798,6 +810,7 @@ public class QuinticTrajectory
 		  
 		double temp_lp_zero = temp_lp[0];
 		double temp_rp_zero = temp_rp[0];
+
 
 		//subtracting first element from all pos elements
 		//and making velocities negative
@@ -813,6 +826,8 @@ public class QuinticTrajectory
 		this.rightPos =temp_rp;
 		this.leftVel =temp_lv;
 		this.rightVel =temp_rv;
+		this.leftAcc = temp_la;
+		this.rightAcc = temp_ra;
 		
 
 		for (int x=0; x<this.heading.length-1; x++)

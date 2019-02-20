@@ -170,15 +170,15 @@ public class DriveWithJoystick extends Command {
 			//((Robot.oi.getGunStyleYValue() > 0.25 || Robot.oi.getGunStyleYValue() < -0.25)&&
 			//Robot.drivetrain.tankDrive(Robot.oi.getGunStyleYValue(), Robot.oi.getGunStyleYValue());
 			
-			if ((Robot.oi.driverJoystick.getLeftStickRaw_Y() < 0.1) && (Robot.oi.driverJoystick.getLeftStickRaw_Y() > -0.1))
+			if ((Robot.oi.driverJoystick.getLeftStickRaw_X() < 0.1) && (Robot.oi.driverJoystick.getLeftStickRaw_X() > -0.1))
 			{
-				Robot.drivetrain.tankDrive(Robot.oi.getGunStyleXValue(), Robot.oi.getGunStyleXValue());	
+				Robot.drivetrain.tankDrive(Robot.oi.getGunStyleYValue(), Robot.oi.getGunStyleYValue());	
 				
 			} 
 			else {
 				Robot.drivetrain.tankDrive(
-						(Robot.oi.getGunStyleXValue()) + Robot.oi.driverJoystick.getLeftStickRaw_Y(),
-						(Robot.oi.getGunStyleXValue()) - Robot.oi.driverJoystick.getLeftStickRaw_Y());
+						(Robot.oi.getGunStyleYValue()) + Robot.oi.driverJoystick.getLeftStickRaw_X(),
+						(Robot.oi.getGunStyleYValue()) - Robot.oi.driverJoystick.getLeftStickRaw_X());
 				Robot.drivetrain.rotateDriveStraightController.setSetPoint(Robot.drivetrain.getHeading());
 						
 			}

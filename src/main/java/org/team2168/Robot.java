@@ -126,7 +126,38 @@ public class Robot extends TimedRobot
     private static boolean blueAlliance = false;
     
     public static OneDimensionalMotionProfiling motion;
-    
+	
+	/***************************************************
+	 *                 2019 stuff
+	 **************************************************/
+
+	public static double[] leftVelQuinticPath;
+    public static double[] rightVelQuinticPath;
+    public static double[] leftPosQuinticPath;
+	public static double[] rightPosQuinticPath;
+	public static double[] leftAccQuinticPath;
+	public static double[] rightAccQuinticPath;
+	public static double[] headingQuinticPath;
+	
+    public static double[] leftVelQuinticPath2;
+    public static double[] rightVelQuinticPath2;
+    public static double[] leftPosQuinticPath2;
+	public static double[] rightPosQuinticPath2;
+	public static double[] leftAccQuinticPath2;
+	public static double[] rightAccQuinticPath2;
+    public static double[] headingQuinticPath2;
+                                   
+    public static double[] leftVelQuinticPath3;
+    public static double[] rightVelQuinticPath3;
+    public static double[] leftPosQuinticPath3;
+	public static double[] rightPosQuinticPath3;
+	public static double[] leftAccQuinticPath3;
+	public static double[] rightAccQuinticPath3;
+    public static double[] headingQuinticPath3;
+
+	 /**************************************************
+	  * 
+	  *************************************************/
     
     public static double[] leftVelPathQuintic;
     public static double[] rightVelPathQuintic;
@@ -228,7 +259,88 @@ public class Robot extends TimedRobot
 //			System.out.println(motion.getVelArray()[i]);
 //		//Start Thread Only After Every Other Class is Loaded. 
 		
-		
+/********************************************************
+ *                  2019 Stuff
+********************************************************/
+
+double[][] wpPath = new double[][] {
+
+	//			{0,0,0},0
+	//			{120,0,0}
+	
+	//			{0.0, 0.0, 0},
+	//			{48.0, 0.0, 0},
+	//			{132.0, 84.0, Math.PI/6}
+	
+				{48.0, 0.0, 0},
+				{96.0, 0.0, 0},
+				{180.0, 90.0, Math.PI/6}
+			};
+	
+			QuinticTrajectory qPath = new QuinticTrajectory("test1", wpPath, false);
+	
+			this.leftPosQuinticPath = qPath.getLeftPos();
+			this.rightPosQuinticPath = qPath.getRightPos();
+			this.leftVelQuinticPath = qPath.getLeftVel();
+			this.rightVelQuinticPath = qPath.getRightVel();
+			this.leftAccQuinticPath = qPath.getLeftAcc();
+			this.rightAccQuinticPath = qPath.getRightAcc();
+			this.headingQuinticPath = qPath.getHeadingDeg();
+			
+	
+			double[][] wpPath2 = new double[][] {
+	
+	//			{0.0, 0.0, 0},
+	//			{36.0, 0.0, 0},
+	//			{120.0, 84.0, Math.PI/2-0.001}
+	
+	//			{180.0, 90.0, -Math.PI/6},
+	//			{0.0, 90.0, 0},
+	
+				{0, 0.0, 0},
+				{180.0, 0.0, 0}
+			};
+	
+			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, false);
+			qPath2.calculate();
+	
+			this.leftPosQuinticPath2 = qPath2.getLeftPos();
+			this.rightPosQuinticPath2 = qPath2.getRightPos();
+			this.leftVelQuinticPath2 = qPath2.getLeftVel();
+			this.rightVelQuinticPath2 = qPath2.getRightVel();
+			this.leftAccQuinticPath2 = qPath2.getLeftAcc();
+			this.rightAccQuinticPath2 = qPath2.getRightAcc();
+			this.headingQuinticPath2 = qPath2.getHeadingDeg();
+	
+			double[][] wpPath3 = new double[][] {
+	
+				{0.0, 0.0, 0},
+				{30.0, 0.0, 0},
+				{84.0, 54.0, Math.PI/2-0.001},
+				{138.0, 108.0, 0},
+				{168.0, 108.0, 0}
+	
+				// {0.0, 90.0, 0},
+				// {204.0, 21.0, -Math.PI/6},
+				// {263.0, 32.0, Math.PI/3-0.001},
+				// {252.0, 90.0, 5*Math.PI/6-0.002}
+	
+			};
+	
+			QuinticTrajectory qPath3 = new QuinticTrajectory("test3",wpPath3);
+			qPath3.calculate();
+			this.leftPosQuinticPath3 = qPath3.getLeftPos();
+			this.rightPosQuinticPath3 = qPath3.getRightPos();
+			this.leftVelQuinticPath3 = qPath3.getLeftVel();
+			this.rightVelQuinticPath3 = qPath3.getRightVel();
+			this.leftAccQuinticPath3 = qPath3.getLeftAcc();
+			this.rightAccQuinticPath3 = qPath3.getRightAcc();
+			this.headingQuinticPath3 = qPath3.getHeadingDeg();
+
+/********************************************************
+ *                  
+********************************************************/
+
 		double[][] waypointPath = new double[][]{
 			{1, 26, 0}, //For left switch & right scale from left side
 			{11.5, 27.0, 0},
@@ -508,7 +620,7 @@ public class Robot extends TimedRobot
 		}
 		
 		
-		LiveWindow.disableAllTelemetry();
+		//LiveWindow.();
 		
 	}
 	
@@ -529,7 +641,7 @@ public class Robot extends TimedRobot
 	{
 		autoMode = false;
 		matchStarted = false;
-		Robot.i2c.write(8, 4);
+		//Robot.i2c.write(8, 4);
 		
 		//If we are not in a match allow Gyro to be recalibrated in Disabled even if a previous 
 		//calibration was performed, we disable this in a match so that if we ever die in a match,
@@ -538,8 +650,10 @@ public class Robot extends TimedRobot
 			drivetrain.startGyroCalibrating();
 		
 		drivetrain.calibrateGyro();
-		callArduino();
+		//callArduino();
 		//i2c.write(8, 0);
+
+		LiveWindow.disableAllTelemetry();
 		
 		
 	}
@@ -549,7 +663,7 @@ public class Robot extends TimedRobot
 
 		//Keep track of Gunstyle Controller Variables
 		
-		callArduino();
+		//callArduino();
 		controlStyle = (int) controlStyleChooser.getSelected();
 		autoPriority = (int) autoPriorityChooser.getSelected();
 		autonomousCommand = (Command) autoChooser.getSelected();
@@ -631,8 +745,8 @@ public class Robot extends TimedRobot
 	        Scheduler.getInstance().run();
 	        
 	        controlStyle = (int) controlStyleChooser.getSelected();
-	        updateLights();
-	        callArduino();
+	        //updateLights();
+	        //callArduino();
 	        //Robot.i2c.write(8, 97);
 	        
 	        	
@@ -740,10 +854,10 @@ public class Robot extends TimedRobot
 		public void controlStyleSelectInit() {
 			controlStyleChooser = new SendableChooser<>();
 			controlStyleChooser.addObject("Tank Drive", 0);
-			//controlStyleChooser.addObject("Gun Style Controller", 1);
-			//controlStyleChooser.addObject("Arcade Drive", 2);
+			controlStyleChooser.addDefault("Gun Style Controller", 1);
+			controlStyleChooser.addObject("Arcade Drive", 2);
 			controlStyleChooser.addObject("GTA Drive", 3);
-			controlStyleChooser.addDefault("Gun Style (new)", 4);
+			controlStyleChooser.addObject("Gun Style (new)", 4);
 		}
 
 		public static int getControlStyleInt() {

@@ -48,15 +48,15 @@ public class PowerDistribution {
 		channelPower = new double[NUM_OF_PDP_CHANNELS];
 		channelError = new int[NUM_OF_PDP_CHANNELS];
 
-		// ConsolePrinter.putNumber("Battery Voltage", () -> {
-		// 	return Robot.pdp.getBatteryVoltage();
-		// }, true, false);
-		// ConsolePrinter.putNumber("totalCurrent", () -> {
-		// 	return Robot.pdp.getTotalCurrent();
-		// }, true, false);
-		// ConsolePrinter.putNumber("pcmCurrent", () -> {
-		// 	return Robot.pdp.getChannelCurrent(RobotMap.PCM_POWER_PCM);
-		// }, true, false);
+		ConsolePrinter.putNumber("Battery Voltage", () -> {
+			return Robot.pdp.getBatteryVoltage();
+		}, true, false);
+		ConsolePrinter.putNumber("totalCurrent", () -> {
+			return Robot.pdp.getTotalCurrent();
+		}, true, false);
+		ConsolePrinter.putNumber("pcmCurrent", () -> {
+			return Robot.pdp.getChannelCurrent(RobotMap.PCM_POWER_PCM);
+		}, true, false);
 
 	}
 
@@ -92,27 +92,27 @@ public class PowerDistribution {
 	}
 
 	private void run() {
-		// batteryVoltage = pdp.getVoltage();
+		batteryVoltage = pdp.getVoltage();
 
-		// for (int i = 0; i < NUM_OF_PDP_CHANNELS; i++) {
+		for (int i = 0; i < NUM_OF_PDP_CHANNELS; i++) {
 
-		// 	channelCurrent[i].putData(pdp.getCurrent(i));
-		// 	channelPower[i] = channelCurrent[i].getLatestValue() * batteryVoltage;
+			channelCurrent[i].putData(pdp.getCurrent(i));
+			channelPower[i] = channelCurrent[i].getLatestValue() * batteryVoltage;
 
-		// 	// calculate current average over last period of time and report error
-		// 	if (channelCurrent[i].getAverage() > RobotMap.STALL_CURRENT_LIMIT)
-		// 		channelError[i] = 2; // danger
-		// 	else if (channelCurrent[i].getAverage() > RobotMap.WARNING_CURRENT_LIMIT)
-		// 		channelError[i] = 1; // warning
-		// 	else
-		// 		channelError[i] = 0; // assume no error
+			// calculate current average over last period of time and report error
+			if (channelCurrent[i].getAverage() > RobotMap.STALL_CURRENT_LIMIT)
+				channelError[i] = 2; // danger
+			else if (channelCurrent[i].getAverage() > RobotMap.WARNING_CURRENT_LIMIT)
+				channelError[i] = 1; // warning
+			else
+				channelError[i] = 0; // assume no error
 
-		// }
+		}
 
-		// totalCurrent = pdp.getTotalCurrent();
-		// totalEnergy = pdp.getTotalEnergy();
-		// temperature = pdp.getTemperature();
-		// totalPower = pdp.getTotalPower();
+		totalCurrent = pdp.getTotalCurrent();
+		totalEnergy = pdp.getTotalEnergy();
+		temperature = pdp.getTemperature();
+		totalPower = pdp.getTotalPower();
 
 	}
 

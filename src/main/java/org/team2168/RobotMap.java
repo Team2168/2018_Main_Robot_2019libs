@@ -36,10 +36,10 @@ public class RobotMap {
 	// PWM (0 to 9) on RoboRio/////////////////////////////////////////////////
 	public static final int RIGHT_DRIVE_MOTOR_1 = 0; //Same as 2017
 	public static final int RIGHT_DRIVE_MOTOR_2 = 1; //Same as 2017
-	public static final int RIGHT_DRIVE_MOTOR_3 = 12; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_1 = 3; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_2 = 4; //Same as 2017
-	public static final int LEFT_DRIVE_MOTOR_3 = 13; //Same as 2017
+	public static final int RIGHT_DRIVE_MOTOR_3 = 16; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_1 = 2; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_2 = 3; //Same as 2017
+	public static final int LEFT_DRIVE_MOTOR_3 = 17; //Same as 2017
 	
 	public static final int LIFT_MOTOR_1 = 4; //2017 ball intake
 	public static final int LIFT_MOTOR_2 = 5; //2017 conveyor
@@ -196,7 +196,7 @@ public class RobotMap {
 	private static final int DRIVE_PULSE_PER_ROTATION = 256; // encoder ticks per rotation
 	// TODO find ratio
 	private static final double DRIVE_GEAR_RATIO = 1.0 / 1.0; // ratio between wheel over encoder
-	private static final double DRIVE_WHEEL_DIAMETER = 6.0;   //6.0;
+	private static final double DRIVE_WHEEL_DIAMETER = 6.15;   //6.0, 5.8925;
 	public static final int DRIVE_ENCODER_PULSE_PER_ROT = (int) (DRIVE_PULSE_PER_ROTATION * DRIVE_GEAR_RATIO); // pulse
 																												// per
 																												// rotation
@@ -207,8 +207,8 @@ public class RobotMap {
 	public static final CounterBase.EncodingType DRIVE_ENCODING_TYPE = CounterBase.EncodingType.k4X; // count rising and
 																										// falling edges
 																										// on
-	public static final AverageEncoder.PositionReturnType DRIVE_POS_RETURN_TYPE = AverageEncoder.PositionReturnType.FEET;
-	public static final AverageEncoder.SpeedReturnType DRIVE_SPEED_RETURN_TYPE = AverageEncoder.SpeedReturnType.FPS;
+	public static final AverageEncoder.PositionReturnType DRIVE_POS_RETURN_TYPE = AverageEncoder.PositionReturnType.INCH;
+	public static final AverageEncoder.SpeedReturnType DRIVE_SPEED_RETURN_TYPE = AverageEncoder.SpeedReturnType.IPS;
 	public static final int DRIVE_ENCODER_MIN_RATE = 0;
 	public static final int DRIVE_ENCODER_MIN_PERIOD = 1;
 	public static final boolean LEFT_DRIVE_TRAIN_ENCODER_REVERSE = true;
@@ -304,8 +304,8 @@ public class RobotMap {
 	public static final long DRIVE_TRAIN_PID_PERIOD = 20;// 70ms loop
 	public static final int DRIVE_TRAIN_PID_ARRAY_SIZE = 30;
 	
-	public static final double DRIVE_TRAIN_MIN_FWD_VOLTAGE = 1.8;//volts
-	public static final double DRIVE_TRAIN_MIN_RVD_VOLTAGE = 1.2;//volts
+	public static final double DRIVE_TRAIN_MIN_FWD_VOLTAGE = 0.0;//1.8;//volts
+	public static final double DRIVE_TRAIN_MIN_RVD_VOLTAGE = 0.0;//1.2;//volts
 	
 	public static final double DRIVE_TRAIN_MIN_ROT_CLOCKWISE_VOLTAGE = 1.45;//volts
 	public static final double DRIVE_TRAIN_MIN_ROT_COUNTCLOCKWISE_VOLTAGE = 1.45;//volts
@@ -321,22 +321,21 @@ public class RobotMap {
 	public static final double DRIVE_TRAIN_RIGHT_SPEED_I = 0.0010526;
 	public static final double DRIVE_TRAIN_RIGHT_SPEED_D = 0.0543;
 
-	public static final double DRIVE_TRAIN_LEFT_POSITION_P = 0.2;
-	public static final double DRIVE_TRAIN_LEFT_POSITION_I = 0.0001412646174233;
-	public static final double DRIVE_TRAIN_LEFT_POSITION_D = 0.0074778888124088;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_P = 0.06;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_I = 0.015;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_D = 0.006;
 
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_P = 0.25;
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_I = 0.0001412646174233;
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_D = 0.0074778888124088;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_P = 0.06;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_I = 0.015;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_D = 0.006;
 
-	public static final double ROTATE_POSITION_P = 0.055;
-	public static final double ROTATE_POSITION_I = 0.001;
-	public static final double ROTATE_POSITION_D = 0.0064778888124088;
+	public static final double ROTATE_POSITION_P = 0.075;
+	public static final double ROTATE_POSITION_I = 0.0025;
+	public static final double ROTATE_POSITION_D = 0.0;
 	
-	public static final double ROTATE_POSITION_P_Drive_Straight = 0.055; //0.055 comp
-	public static final double ROTATE_POSITION_I_Drive_Straight = 0.001; //0.001
-	public static final double ROTATE_POSITION_D_Drive_Straight = 0.0064778888124088;
-	
+	public static final double ROTATE_POSITION_P_Drive_Straight = 0.09; //0.055 comp
+	public static final double ROTATE_POSITION_I_Drive_Straight = 0.002; //0.001
+	public static final double ROTATE_POSITION_D_Drive_Straight = 0.001;
 	
 
 	public static final double LIFT_P = 0.024;
@@ -357,12 +356,13 @@ public class RobotMap {
 	public static final int TCP_SERVER_LEFT_DRIVE_TRAIN_SPEED = 1183;
 	public static final int TCP_SERVER_LIFT_POT_CONTROLLER = 1184;
 	public static final int TCP_SERVER_ROTATE_CONTROLLER_STRAIGHT = 1185;
-	
+	public static final int TCO_SERVER_RIGHT_DRIVE_TRAIN_POSITION = 1186;
+	public static final int TCP_SERVER_LEFT_DRIVE_TRAIN_POSITION = 1187;
 
 	/******************************************************************
 	 *                         ConsolePrinter PARAMETERS              *
 	 ******************************************************************/
-	public static final boolean PRINT_SD_DEBUG_DATA = true;
+	public static final boolean PRINT_SD_DEBUG_DATA = false;
 	public static final long SmartDashThreadPeriod = 100; // ms
 	public static final long CONSOLE_PRINTER_LOG_RATE_MS = 100; // ms
 
