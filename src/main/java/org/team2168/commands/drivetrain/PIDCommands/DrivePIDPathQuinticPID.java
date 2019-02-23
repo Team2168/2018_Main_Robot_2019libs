@@ -460,6 +460,7 @@ public class DrivePIDPathQuinticPID extends Command {
 				if (Math.abs(speedRight)<0.15 && counter!=0)
 					speedRight = directionValue*0.15;
 			}
+			
 			Robot.drivetrain.tankDrive(speedLeft+headingCorrection+leftPID+accelLeft,speedRight-headingCorrection+rightPID+accelRight);
 			//Robot.drivetrain.tankDrive(speedLeft+leftPID,speedRight+rightPID);
 			counter++;
