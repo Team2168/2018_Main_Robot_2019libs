@@ -74,6 +74,7 @@ public class QuinticTrajectory
 	public double[][] leftJerk;
 	public double[] heading;
 
+
 	public double[] rightAcc;
 	public double[] leftAcc;
 
@@ -110,8 +111,8 @@ public class QuinticTrajectory
 			
 			// {48.0, 0.0, 0},
 			// {96.0, 0.0, 0},
-			{0.0, 90.0, 0},
-			{120.0, 90.0, 0},
+			{0, 0.0, 0},
+			{180.0, 0.0, Math.PI/6}
 			
 			// {204.0, 21.0, -Math.PI/6},
 			// {263.0, 32.0, Math.PI/3-0.001},
@@ -134,7 +135,7 @@ public class QuinticTrajectory
 		{19, 21.5, -Math.PI/4+0.0001},
 
 	};		
-		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, false);
+		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, true);
 		quinticPath.calculate();
 		//quinticPath.plotPath();
 		//System.out.println(quinticPath.traj.toStringEuclidean());
@@ -285,8 +286,8 @@ public class QuinticTrajectory
 				fig4.setYLabel("Velocity (ft/sec)");
 				fig4.setXLabel("time (seconds)");
 				fig4.setTitle("Velocity Profile for Left and Right Wheels \n Left = Cyan, Right = Magenta");
-				fig4.addData(quinticPath.rightVelocity, Color.magenta);
-				fig4.addData(quinticPath.leftVelocity, Color.cyan);
+				fig4.addData(quinticPath.time,quinticPath.rightVel, Color.magenta);
+				fig4.addData(quinticPath.time,quinticPath.leftVel, Color.cyan);
 
 
 				FalconLinePlot fig5 = new FalconLinePlot(new double[][]{{0.0,0.0}});
@@ -315,8 +316,8 @@ public class QuinticTrajectory
 //	    config.max_jerk = 30.0*12;
 //	    config.max_vel = 10.0*12;
 	    
-	    config.max_vel = 3.0*12;
-	    config.max_acc = 3.0*12;
+	    config.max_vel = 6.0*12;
+	    config.max_acc = 6.0*12;
 	    config.max_jerk = 30.0*12;
 	    
 	    
@@ -326,8 +327,12 @@ public class QuinticTrajectory
 	{
 		this(filename, path);
 
+		this.reverse=reverse;
+
 		if(reverse)
 			this.invert();
+
+
 	}
 
 	public QuinticTrajectory(String filename, double[][] path)
@@ -504,7 +509,10 @@ public class QuinticTrajectory
 //	    print(this.leftPath);
 //	    print(this.leftVelocity);
 	    
-		
+
+		if(this.reverse)
+			this.invert();
+
 	}
 	
 //	public static void print(double[] path)
@@ -801,8 +809,8 @@ public class QuinticTrajectory
 			temp_rv[j]= -rightVel[i-j];
 			temp_rp[j]= rightPos[i-j];
 			temp_lp[j]= leftPos[i-j];
-			temp_la[j] = -leftAcc[i-j];
-			temp_ra[j] = -rightAcc[i-j];
+//			temp_la[j] = -leftAcc[i-j];
+//			temp_ra[j] = -rightAcc[i-j];
 			
 			
 		}
@@ -826,8 +834,8 @@ public class QuinticTrajectory
 		this.rightPos =temp_rp;
 		this.leftVel =temp_lv;
 		this.rightVel =temp_rv;
-		this.leftAcc = temp_la;
-		this.rightAcc = temp_ra;
+//		this.leftAcc = temp_la;
+//		this.rightAcc = temp_ra;
 		
 
 		for (int x=0; x<this.heading.length-1; x++)

@@ -313,29 +313,29 @@ public class RobotMap {
 	// PID Gains for Left & Right Speed and Position
 	// Bandwidth =
 	// Phase Margin =
-	public static final double DRIVE_TRAIN_LEFT_SPEED_P = 0.04779;
-	public static final double DRIVE_TRAIN_LEFT_SPEED_I = 0.0010526;
-	public static final double DRIVE_TRAIN_LEFT_SPEED_D = 0.0543;
+	public static final double DRIVE_TRAIN_LEFT_SPEED_P = 0.0;
+	public static final double DRIVE_TRAIN_LEFT_SPEED_I = 0.0;
+	public static final double DRIVE_TRAIN_LEFT_SPEED_D = 0.0;
 
-	public static final double DRIVE_TRAIN_RIGHT_SPEED_P = 0.04779;
-	public static final double DRIVE_TRAIN_RIGHT_SPEED_I = 0.0010526;
-	public static final double DRIVE_TRAIN_RIGHT_SPEED_D = 0.0543;
+	public static final double DRIVE_TRAIN_RIGHT_SPEED_P = 0.0;
+	public static final double DRIVE_TRAIN_RIGHT_SPEED_I = 0.0;
+	public static final double DRIVE_TRAIN_RIGHT_SPEED_D = 0.0;
 
-	public static final double DRIVE_TRAIN_LEFT_POSITION_P = 0.06;
-	public static final double DRIVE_TRAIN_LEFT_POSITION_I = 0.015;
-	public static final double DRIVE_TRAIN_LEFT_POSITION_D = 0.006;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_P = 0.03;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_I = 0.0015;
+	public static final double DRIVE_TRAIN_LEFT_POSITION_D = 0.0;
 
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_P = 0.06;
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_I = 0.015;
-	public static final double DRIVE_TRAIN_RIGHT_POSITION_D = 0.006;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_P = 0.03;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_I = 0.0015;
+	public static final double DRIVE_TRAIN_RIGHT_POSITION_D = 0.0;
 
 	public static final double ROTATE_POSITION_P = 0.075;
 	public static final double ROTATE_POSITION_I = 0.0025;
 	public static final double ROTATE_POSITION_D = 0.0;
 	
-	public static final double ROTATE_POSITION_P_Drive_Straight = 0.09; //0.055 comp
-	public static final double ROTATE_POSITION_I_Drive_Straight = 0.002; //0.001
-	public static final double ROTATE_POSITION_D_Drive_Straight = 0.001;
+	public static final double ROTATE_POSITION_P_Drive_Straight = 0.045; //0.055 comp
+	public static final double ROTATE_POSITION_I_Drive_Straight = 0.025; //0.001
+	public static final double ROTATE_POSITION_D_Drive_Straight = 0.0025;
 	
 
 	public static final double LIFT_P = 0.024;

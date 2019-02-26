@@ -387,6 +387,7 @@ public class DrivePIDPathQuinticPID extends Command {
 			Robot.drivetrain.rightSpeedController.setSetPoint(this.setPointRightVel);
 		}
 
+		//
 		Robot.drivetrain.rotateDriveStraightController.reset();
 		if(this.headingByArray)
 			Robot.drivetrain.rotateDriveStraightController.setSetPoint(setPointHeading);
