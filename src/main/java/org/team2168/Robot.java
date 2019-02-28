@@ -1,24 +1,10 @@
 package org.team2168;
 
-import org.team2168.subsystems.*;
 import org.team2168.PID.trajectory.OneDimensionalMotionProfiling;
 import org.team2168.PID.trajectory.QuinticTrajectory;
-import org.team2168.commands.auto.*;
+import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.auto.RealOnes.DriveStraight;
-import org.team2168.commands.auto.RealOnes.DriveToLeftScale3CubeFromLeftSide;
-import org.team2168.commands.auto.RealOnes.DriveToLeftScaleAndLeftSwitchV2;
-import org.team2168.commands.auto.RealOnes.DriveToLeftScaleOnlyV2;
-import org.team2168.commands.auto.RealOnes.DriveToLeftSwitchAndRightScaleFromLeft;
-import org.team2168.commands.auto.RealOnes.DriveToRightScaleFromLeft;
-import org.team2168.commands.auto.RealOnes.NeverRunMe;
-import org.team2168.commands.auto.RealOnes.LeftSideSimple;
-import org.team2168.commands.auto.RealOnes.TestAuto;
-import org.team2168.commands.auto.RightSide.DriveToScale2CubeFromRightSide;
-import org.team2168.commands.auto.RightSide.RightSideSimple;
 import org.team2168.commands.auto.selector.AutoStartCenter3Cube;
-import org.team2168.commands.auto.selector.AutoStartLeft1Cube;
-import org.team2168.commands.auto.selector.AutoStartLeft2Cube;
-import org.team2168.commands.auto.selector.AutoStartLeft2CubeSuperDooperPooper;
 import org.team2168.commands.auto.selector.AutoStartLeft3CubeNotSafe;
 import org.team2168.commands.auto.selector.AutoStartLeft3CubeSafe;
 import org.team2168.commands.auto.selector.AutoStartLeftSimple;
@@ -26,24 +12,31 @@ import org.team2168.commands.auto.selector.AutoStartRight3CubeNotSafe;
 import org.team2168.commands.auto.selector.AutoStartRight3CubeSafe;
 import org.team2168.commands.auto.selector.AutoStartRightSimple;
 import org.team2168.commands.lights.AutoWithoutCube;
-import org.team2168.commands.lights.SuckPattern;
 import org.team2168.commands.lights.TeleopWithoutCube;
-import org.team2168.commands.pneumatics.*;
+import org.team2168.commands.pneumatics.StartCompressor;
+import org.team2168.subsystems.CubeIntakeGripper;
+import org.team2168.subsystems.CubeIntakeWheels;
+import org.team2168.subsystems.Drivetrain;
+import org.team2168.subsystems.DrivetrainShifter;
+import org.team2168.subsystems.IntakePivotPiston;
+import org.team2168.subsystems.Lift;
+import org.team2168.subsystems.LiftRatchetShifter;
+import org.team2168.subsystems.LiftShifter;
+import org.team2168.subsystems.PivotHardStop;
+import org.team2168.subsystems.Pneumatics;
 import org.team2168.utils.Debouncer;
-import org.team2168.utils.I2CLights;
 import org.team2168.utils.PowerDistribution;
-
 import org.team2168.utils.consoleprinter.ConsolePrinter;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -54,13 +47,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends TimedRobot
-{
-	//Digital Jumper to Identify if this is practice bot or comp bot
+public class Robot extends TimedRobot {
+	// Digital Jumper to Identify if this is practice bot or comp bot
 	private static DigitalInput practiceBot;
 	private static DigitalInput canBot;
 
-	//Operator Interface
+	// Operator Interface
 	public static OI oi;
 	
 	//Subsystems
@@ -138,6 +130,7 @@ public class Robot extends TimedRobot
 	public static double[] leftAccQuinticPath;
 	public static double[] rightAccQuinticPath;
 	public static double[] headingQuinticPath;
+	public static boolean QuinticPath_Reverse = false;
 	
     public static double[] leftVelQuinticPath2;
     public static double[] rightVelQuinticPath2;
@@ -145,7 +138,9 @@ public class Robot extends TimedRobot
 	public static double[] rightPosQuinticPath2;
 	public static double[] leftAccQuinticPath2;
 	public static double[] rightAccQuinticPath2;
-    public static double[] headingQuinticPath2;
+	public static double[] headingQuinticPath2;
+	public static boolean QuinticPath2_Reverse = false;
+
                                    
     public static double[] leftVelQuinticPath3;
     public static double[] rightVelQuinticPath3;
@@ -153,7 +148,8 @@ public class Robot extends TimedRobot
 	public static double[] rightPosQuinticPath3;
 	public static double[] leftAccQuinticPath3;
 	public static double[] rightAccQuinticPath3;
-    public static double[] headingQuinticPath3;
+	public static double[] headingQuinticPath3;
+	public static boolean QuinticPath3_Reverse = false;
 
 	 /**************************************************
 	  * 
@@ -286,6 +282,7 @@ double[][] wpPath = new double[][] {
 			this.leftAccQuinticPath = qPath.getLeftAcc();
 			this.rightAccQuinticPath = qPath.getRightAcc();
 			this.headingQuinticPath = qPath.getHeadingDeg();
+			this.QuinticPath_Reverse = qPath.reverse;
 			
 	
 			double[][] wpPath2 = new double[][] {
@@ -297,8 +294,8 @@ double[][] wpPath = new double[][] {
 	//			{180.0, 90.0, -Math.PI/6},
 	//			{0.0, 90.0, 0},
 	
-			{0, 0.0, 0},
-			{180.0, 0.0, Math.PI/6}
+			{0, 0.0, -Math.PI/6},
+			{180.0, 0.0, 0}
 			};
 	
 			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, true);
@@ -311,6 +308,7 @@ double[][] wpPath = new double[][] {
 			this.leftAccQuinticPath2 = qPath2.getLeftAcc();
 			this.rightAccQuinticPath2 = qPath2.getRightAcc();
 			this.headingQuinticPath2 = qPath2.getHeadingDeg();
+			this.QuinticPath2_Reverse = qPath2.reverse;
 	
 			double[][] wpPath3 = new double[][] {
 	
@@ -336,6 +334,7 @@ double[][] wpPath = new double[][] {
 			this.leftAccQuinticPath3 = qPath3.getLeftAcc();
 			this.rightAccQuinticPath3 = qPath3.getRightAcc();
 			this.headingQuinticPath3 = qPath3.getHeadingDeg();
+			this.QuinticPath3_Reverse = qPath3.reverse;
 
 /********************************************************
  *                  

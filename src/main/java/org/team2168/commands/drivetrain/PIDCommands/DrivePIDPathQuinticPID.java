@@ -43,7 +43,9 @@ public class DrivePIDPathQuinticPID extends Command {
 	private boolean headingByArray = false;
 	private boolean rotateInPlace = false;
 	private boolean positonGiven = false;
+	private boolean isFirst;
 	double finalRotDistance;
+	private boolean reverse;
 
 	public DrivePIDPathQuinticPID(double distance )
 	{
@@ -103,6 +105,7 @@ public class DrivePIDPathQuinticPID extends Command {
 		this.setPointRightVel = setPointRightVel;
 		this.setPointHeading = setPointHeading;
 
+		
 
 		if(!direction)
 		{
@@ -133,11 +136,13 @@ public class DrivePIDPathQuinticPID extends Command {
 	}
 
 
-	public DrivePIDPathQuinticPID(double[] setPointLeftPos, double[] setPointRightPos, double[] setPointLeftVel, double[] setPointRightVel, double[] setPointLeftAcc, double[] setPointRightAcc, double[] setPointHeading){
+	public DrivePIDPathQuinticPID(double[] setPointLeftPos, double[] setPointRightPos, double[] setPointLeftVel, double[] setPointRightVel, double[] setPointLeftAcc, double[] setPointRightAcc, double[] setPointHeading, boolean reset, boolean reverse){
 		requires(Robot.drivetrain);
 
 		this.positonGiven = true;
 		this.direction = false;
+
+		this.reverse=reverse;
 
 		this.setPointLeftPos = setPointLeftPos;
 		this.setPointRightPos = setPointRightPos;
@@ -147,7 +152,7 @@ public class DrivePIDPathQuinticPID extends Command {
 		this.setPointRightAcc = setPointRightAcc;
 		this.setPointHeading = setPointHeading;
 	
-
+		
 		this.headingByArray= true;
 
 		SmartDashboard.putNumber("VFF_term", this.vff_term);
@@ -410,7 +415,7 @@ public class DrivePIDPathQuinticPID extends Command {
 		angle = Robot.drivetrain.getHeading();
 		this.lastRotateOutput = 0;
 
-
+	
 
 
 		//if true we want to reverse else we want to go forward
@@ -432,6 +437,11 @@ public class DrivePIDPathQuinticPID extends Command {
 		oldClock = currTime;
 
 		vff_term = SmartDashboard.getNumber("VFF_term", 0);
+		aff_term = SmartDashboard.getNumber("AFF_term", 0);
+		if(this.reverse){
+			this.vff_term = -this.vff_term;
+			this.aff_term = -this.aff_term;
+		}
 
 		//lastRotateOutput = Robot.drivetrain.rotateDriveStraightController.getControlOutput();
 		double leftPID = 0;
