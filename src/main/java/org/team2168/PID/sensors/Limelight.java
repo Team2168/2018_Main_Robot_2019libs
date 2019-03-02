@@ -1,12 +1,14 @@
 package org.team2168.PID.sensors;
 
+import org.team2168.Robot;
+import org.team2168.RobotMap;
+import org.team2168.utils.consoleprinter.ConsolePrinter;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import org.team2168.utils.consoleprinter.ConsolePrinter;
-import org.team2168.Robot;
 
-public class Limelight
+public class Limelight implements PIDSensorInterface
 {
 
     // Target position and camera settings
@@ -17,6 +19,9 @@ public class Limelight
     private NetworkTableEntry ledMode;
     private NetworkTableEntry camMode;
     private NetworkTableEntry pipeline;
+
+    private double currentPosition;
+    private double previousPosition;
 
     /**
      * Default constructor
@@ -29,6 +34,9 @@ public class Limelight
         ta = networkTable.getEntry("ta");
         camtran = networkTable.getEntry("camtran");
 
+        currentPosition = 0.0;
+        previousPosition = 0.0;
+
         // Variables to set data on Limelight
         ledMode = networkTable.getEntry("ledMode");
         camMode = networkTable.getEntry("camMode");
@@ -37,26 +45,48 @@ public class Limelight
         // Sets the camera controls
         ledMode.setNumber(0);
         camMode.setNumber(0);
-        pipeline.setNumber(4);
+        pipeline.setNumber(0);
 
         // Testing only
-		ConsolePrinter.putNumber("Vision Target Bearing", () -> {return Robot.drivetrain.limelight.getTargetBearing();}, true, false);
-		ConsolePrinter.putNumber("Vision Target Area", () -> {return Robot.drivetrain.limelight.getTargetArea();}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 1", () -> {return Robot.drivetrain.limelight.getTargetPosition()[0];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 2", () -> {return Robot.drivetrain.limelight.getTargetPosition()[1];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 3", () -> {return Robot.drivetrain.limelight.getTargetPosition()[2];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 4", () -> {return Robot.drivetrain.limelight.getTargetPosition()[3];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 5", () -> {return Robot.drivetrain.limelight.getTargetPosition()[4];}, true, false);
-		ConsolePrinter.putNumber("Vision Target Position 6", () -> {return Robot.drivetrain.limelight.getTargetPosition()[5];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Bearing", () -> {return Robot.drivetrain.limelight.getPos();}, true, false);
+        ConsolePrinter.putNumber("Vision Target Area", () -> {return Robot.drivetrain.limelight.getTargetArea();}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 1", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[0];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 2", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[1];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 3", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[2];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 4", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[3];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 5", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[4];}, true, false);
+        ConsolePrinter.putNumber("Vision Target Position 6", () -> {return Robot.drivetrain.limelight.getCameraTranslation()[5];}, true, false);
+        ConsolePrinter.putNumber("Limelight Controller Output", () -> {return Robot.drivetrain.limelightPosController.getControlOutput();}, true, false);
+        ConsolePrinter.putNumber("Limelight P", () -> {return RobotMap.LIMELIGHT_POSITION_P;}, true, true);
+        ConsolePrinter.putNumber("Limelight I", () -> {return RobotMap.LIMELIGHT_POSITION_I;}, true, true);
+        ConsolePrinter.putNumber("Limelight D", () -> {return RobotMap.LIMELIGHT_POSITION_D;}, true, true);
+    }
+
+    /**
+     * Returns the rate at which the target bearing changes
+     */
+    @Override
+    public double getRate()
+    {
+        return Math.abs((previousPosition - currentPosition) / previousPosition);
+    }
+
+    @Override
+    public void reset()
+    {
+        // Does not apply
     }
 
     /**
      * Returns the target bearing
      * @return is a double from -27.0 to 27.0
      */
-    public double getTargetBearing()
+    @Override
+    public double getPos()
     {
-        return tx.getDouble(0.0);
+        previousPosition = currentPosition;
+        currentPosition = tx.getDouble(0.0);
+        return currentPosition;
     }
 
     /**
@@ -69,10 +99,10 @@ public class Limelight
     }
 
     /**
-     * Returns the target's 3D position
+     * Returns the translation of the camera from the target
      * @return is an array of 6 doubles; gives the translation (x,y,z) and rotation (pitch,yaw,roll)
      */
-    public double[] getTargetPosition()
+    public double[] getCameraTranslation()
     {
         double[] defaultValues = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         return camtran.getDoubleArray(defaultValues);
@@ -88,6 +118,15 @@ public class Limelight
         {
             pipeline.setNumber(pipelineNumber);
         }
+    }
+
+    /**
+     * Returns the current pipeline number
+     * @return is an int from 0 to 9
+     */
+    public int getPipeline()
+    {
+        return pipeline.getNumber(5).intValue();
     }
     
 }

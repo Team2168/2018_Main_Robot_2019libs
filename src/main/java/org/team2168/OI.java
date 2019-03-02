@@ -14,6 +14,7 @@ import org.team2168.commands.drivetrain.ShiftHigh;
 import org.team2168.commands.drivetrain.ShiftLow;
 import org.team2168.commands.drivetrain.PIDCommands.RotateXDistancePIDZZZ;
 import org.team2168.commands.drivetrain.PIDCommands.RotateXDistancePIDZZZNoBattery;
+import org.team2168.commands.drivetrain.PIDCommands.TogglePipeline;
 import org.team2168.commands.hardStop.DisEngageIntakePivotHardStop;
 import org.team2168.commands.hardStop.EngageIntakePivotHardStop;
 import org.team2168.commands.drivetrain.PIDCommands.DrivePIDPath;
@@ -22,6 +23,7 @@ import org.team2168.commands.drivetrain.PIDCommands.DrivePIDPause;
 import org.team2168.commands.drivetrain.PIDCommands.DriveXDistance;
 import org.team2168.commands.drivetrain.PIDCommands.EnableRotatePID;
 import org.team2168.commands.drivetrain.PIDCommands.EnableRotateXDistancePIDZZZ;
+import org.team2168.commands.drivetrain.PIDCommands.RotatePIDLimelight;
 import org.team2168.commands.drivetrain.PIDCommands.RotatePIDPath;
 import org.team2168.commands.drivetrain.PIDCommands.RotatePIDPathV2;
 import org.team2168.commands.intake.CloseIntake;
@@ -264,6 +266,8 @@ public class OI {
 	// 	//pidTestJoystick.ButtonB().whenPressed(new RotateXDistancePIDZZZ(142,0.6,0.2,0.5,true));
 		pidTestJoystick.ButtonA().whenPressed(new Drive14FeetForward_9FeetLeft());
 		pidTestJoystick.ButtonB().whenPressed(new Drive10FeetBackward());
+		pidTestJoystick.ButtonX().whenPressed(new RotatePIDLimelight());
+		pidTestJoystick.ButtonY().whenPressed(new TogglePipeline());
 		
 	// //	pidTestJoystick.ButtonY().whileHeld(new DriveIntakeWheelsWithConstant(-0.5));
 	// 	//pidTestJoystick.ButtonY().whenPressed(new DriveLiftPIDZZZ(74.0, 0.9, 0.1,1.0,true));

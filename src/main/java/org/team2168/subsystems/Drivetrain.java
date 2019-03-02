@@ -53,7 +53,10 @@ public class Drivetrain extends Subsystem {
 	private double leftMotor1FPS;
 	private double lefttMotor1FPS;
 	public IMU imu;
+
+	// declare limelight and its position controller
 	public Limelight limelight;
+	public PIDPosition limelightPosController;
 	
 
 	// declare position/speed controllers
@@ -78,6 +81,7 @@ public class Drivetrain extends Subsystem {
 	TCPSocketSender TCProtateController;
 	TCPSocketSender TCPleftPosController;
 	TCPSocketSender TCPrightPosController;
+	TCPSocketSender TCPlimelightPosController;
 
 	public volatile double leftMotor1Voltage;
 	public volatile double leftMotor2Voltage;
@@ -158,9 +162,19 @@ public class Drivetrain extends Subsystem {
 		gyroSPI.startThread();
 
 		imu = new IMU(drivetrainLeftEncoder, drivetrainRightEncoder, RobotMap.WHEEL_BASE);
+		limelight = new Limelight();
+		limelight.setPipeline(5);
 
 		DrivetrainSonarSensor = new AnalogInput(RobotMap.DRIVETRAIN_SONAR_SENSOR);
 
+  		// Limelight Controller
+		  limelightPosController = new PIDPosition(
+			"limelightPosController",
+			 RobotMap.LIMELIGHT_POSITION_P,
+			 RobotMap.LIMELIGHT_POSITION_I,
+			 RobotMap.LIMELIGHT_POSITION_D,
+			 limelight,
+			 RobotMap.DRIVE_TRAIN_PID_PERIOD);
 
 		// DriveStraight Controller
 		rotateController = new PIDPosition(
@@ -237,6 +251,7 @@ public class Drivetrain extends Subsystem {
 
 
 		// start controller threads
+		limelightPosController.startThread();
 		rightSpeedController.startThread();
 		leftSpeedController.startThread();
 		rightPosController.startThread();
@@ -268,14 +283,16 @@ public class Drivetrain extends Subsystem {
 				rotateDriveStraightController);
 		TCProtateController.start();
 
+		TCPlimelightPosController = new TCPSocketSender(RobotMap.TCP_SERVER_ROTATE_CONTROLLER_WITH_CAMERA,
+				limelightPosController);
+		TCPlimelightPosController.start();
+
 
 		leftMotor1Voltage = 0;
 		leftMotor2Voltage = 0;
 
 		rightMotor1Voltage = 0;
 		rightMotor2Voltage = 0;
-		
-  		limelight = new Limelight();
 
 		// Log sensor data
 		

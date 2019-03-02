@@ -336,6 +336,10 @@ public class RobotMap {
 	public static final double ROTATE_POSITION_P_Drive_Straight = 0.09; //0.055 comp
 	public static final double ROTATE_POSITION_I_Drive_Straight = 0.002; //0.001
 	public static final double ROTATE_POSITION_D_Drive_Straight = 0.001;
+
+	public static final double LIMELIGHT_POSITION_P = 0.013;
+	public static final double LIMELIGHT_POSITION_I = 0.0;
+	public static final double LIMELIGHT_POSITION_D = 0.0;
 	
 
 	public static final double LIFT_P = 0.024;
@@ -358,6 +362,7 @@ public class RobotMap {
 	public static final int TCP_SERVER_ROTATE_CONTROLLER_STRAIGHT = 1185;
 	public static final int TCO_SERVER_RIGHT_DRIVE_TRAIN_POSITION = 1186;
 	public static final int TCP_SERVER_LEFT_DRIVE_TRAIN_POSITION = 1187;
+	public static final int TCP_SERVER_ROTATE_CONTROLLER_WITH_CAMERA = 1188;
 
 	/******************************************************************
 	 *                         ConsolePrinter PARAMETERS              *
