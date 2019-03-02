@@ -406,7 +406,7 @@ public class DrivePIDPathQuinticPID extends Command {
 
 		Robot.drivetrain.resetPosition();
 		Robot.drivetrain.resetGyro();
-
+		Robot.drivetrain.setGyroAngle(setPointHeading[0]);
 		//reset controller
 		Robot.drivetrain.imu.reset();
 		Robot.drivetrain.driveTrainPosController.reset();
@@ -415,8 +415,10 @@ public class DrivePIDPathQuinticPID extends Command {
 		angle = Robot.drivetrain.getHeading();
 		this.lastRotateOutput = 0;
 
-	
-
+		if(this.reverse){
+			this.vff_term = -this.vff_term;
+			this.aff_term = -this.aff_term;
+		}
 
 		//if true we want to reverse else we want to go forward
 		if (direction)
@@ -432,16 +434,14 @@ public class DrivePIDPathQuinticPID extends Command {
 		//Robot.drivetrain.tankDrive(Robot.drivetrain.leftSpeedController.getControlOutput(),
 		//Robot.drivetrain.rightSpeedController.getControlOutput());
 
+
 		double currTime = Timer.getFPGATimestamp(); 
 		SmartDashboard.putNumber("Command Execution Time", (currTime - oldClock));
 		oldClock = currTime;
 
-		vff_term = SmartDashboard.getNumber("VFF_term", 0);
-		aff_term = SmartDashboard.getNumber("AFF_term", 0);
-		if(this.reverse){
-			this.vff_term = -this.vff_term;
-			this.aff_term = -this.aff_term;
-		}
+		//vff_term = SmartDashboard.getNumber("VFF_term", 0);
+		//aff_term = SmartDashboard.getNumber("AFF_term", 0);
+	
 
 		//lastRotateOutput = Robot.drivetrain.rotateDriveStraightController.getControlOutput();
 		double leftPID = 0;
@@ -476,6 +476,17 @@ public class DrivePIDPathQuinticPID extends Command {
 			//Robot.drivetrain.tankDrive(speedLeft+leftPID,speedRight+rightPID);
 			counter++;
 
+			SmartDashboard.putNumber("speedLeft", speedLeft);
+			SmartDashboard.putNumber("speedRight", speedRight);
+			SmartDashboard.putNumber("headingCorrection", headingCorrection);
+			SmartDashboard.putNumber("leftPID", leftPID);
+			SmartDashboard.putNumber("rightPID", rightPID);
+			SmartDashboard.putNumber("accelLeft", accelLeft);
+			SmartDashboard.putNumber("accelRight", accelRight);
+			SmartDashboard.putNumber("FF_term", vff_term);
+			SmartDashboard.putNumber("leftSum", speedLeft+headingCorrection+leftPID);
+			SmartDashboard.putNumber("rightSum", speedRight+headingCorrection+rightPID);
+
 					}
 		else
 		{
@@ -495,14 +506,14 @@ public class DrivePIDPathQuinticPID extends Command {
 	// Called once after isFinished returns true
 
 	protected void end() {
-		//		Robot.drivetrain.leftPosController.Pause();
-		//		Robot.drivetrain.rightPosController.Pause();
-		//		Robot.drivetrain.leftSpeedController.Pause();
-		//		Robot.drivetrain.rightSpeedController.Pause();
-		//		Robot.drivetrain.rotateDriveStraightController.Pause();
-		////		Robot.drivetrain.rotateDriveStraightController.reset();
-		////		Robot.drivetrain.leftPosController.reset();
-		////		Robot.drivetrain.rightPosController.reset();
+				Robot.drivetrain.leftPosController.Pause();
+				Robot.drivetrain.rightPosController.Pause();
+				Robot.drivetrain.leftSpeedController.Pause();
+				Robot.drivetrain.rightSpeedController.Pause();
+				Robot.drivetrain.rotateDriveStraightController.Pause();
+				Robot.drivetrain.rotateDriveStraightController.reset();
+				Robot.drivetrain.leftPosController.reset();
+				Robot.drivetrain.rightPosController.reset();
 		Robot.drivetrain.tankDrive(0, 0);
 
 	}

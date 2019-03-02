@@ -111,8 +111,9 @@ public class QuinticTrajectory
 			
 			// {48.0, 0.0, 0},
 			// {96.0, 0.0, 0},
-			{0, 0.0, -Math.PI/6},
-			{180, 0.0, 0},
+			{0, 312.0, 0},
+			{240.0, 258.0, 0},
+			{288.0, 276.0, Math.PI/3},
 			
 			
 			// {204.0, 21.0, -Math.PI/6},
@@ -136,7 +137,7 @@ public class QuinticTrajectory
 		{19, 21.5, -Math.PI/4+0.0001},
 
 	};		
-		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, true);
+		QuinticTrajectory quinticPath= new QuinticTrajectory("path1.txt", waypointPath, false);
 		quinticPath.calculate();
 		//quinticPath.plotPath();
 		//System.out.println(quinticPath.traj.toStringEuclidean());

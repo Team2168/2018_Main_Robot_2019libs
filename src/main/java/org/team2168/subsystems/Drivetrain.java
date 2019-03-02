@@ -589,6 +589,10 @@ public class Drivetrain extends Subsystem {
 		gyroSPI.reset();
 	}
 
+	public void setGyroAngle(double angle){
+		gyroSPI.setAngle(angle);
+	}
+
 	/**
 	 * Calibrate gyro. This should only be called if the robot will be stationary
 	 * for the calibration period.

@@ -147,6 +147,10 @@ public class ADXRS453Gyro implements PIDSensorInterface {
 		angle = 0;
 	}
 
+	public final void setAngle(double angle){
+		this.angle = angle;
+	}
+
 	public double getRate() {
 		return currentRate;
 	}

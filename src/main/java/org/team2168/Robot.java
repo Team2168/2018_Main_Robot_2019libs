@@ -294,8 +294,8 @@ double[][] wpPath = new double[][] {
 	//			{180.0, 90.0, -Math.PI/6},
 	//			{0.0, 90.0, 0},
 	
-			{0, 0.0, -Math.PI/6},
-			{180.0, 0.0, 0}
+			{0, 0.0, 0},
+			{192.0, 6.0, Math.PI/6}
 			};
 	
 			QuinticTrajectory qPath2 = new QuinticTrajectory("test2",wpPath2, true);
@@ -312,11 +312,15 @@ double[][] wpPath = new double[][] {
 	
 			double[][] wpPath3 = new double[][] {
 	
-				{0.0, 0.0, 0},
-				{30.0, 0.0, 0},
-				{84.0, 54.0, Math.PI/2-0.001},
-				{138.0, 108.0, 0},
-				{168.0, 108.0, 0}
+				// {0.0, 0.0, 0},
+				// {30.0, 0.0, 0},
+				// {84.0, 54.0, Math.PI/2-0.001},
+				// {138.0, 108.0, 0},
+				// {168.0, 108.0, 0}
+
+				{0, 312.0, 0},
+			{240.0, 258.0, 0},
+			{264.0, 276.0, Math.PI/4},
 	
 				// {0.0, 90.0, 0},
 				// {204.0, 21.0, -Math.PI/6},
@@ -325,7 +329,7 @@ double[][] wpPath = new double[][] {
 	
 			};
 	
-			QuinticTrajectory qPath3 = new QuinticTrajectory("test3",wpPath3);
+			QuinticTrajectory qPath3 = new QuinticTrajectory("test3",wpPath3, false);
 			qPath3.calculate();
 			this.leftPosQuinticPath3 = qPath3.getLeftPos();
 			this.rightPosQuinticPath3 = qPath3.getRightPos();

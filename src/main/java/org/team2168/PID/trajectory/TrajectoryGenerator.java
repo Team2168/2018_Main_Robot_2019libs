@@ -158,7 +158,7 @@ public class TrajectoryGenerator {
               / config.max_jerk) / config.dt);
       double impulse = (goal_pos / adjusted_max_vel) / config.dt;
       int time = (int) (Math.ceil(f1_length + f2_length + impulse));
-      traj = secondOrderFilter(f1_length, f2_length, config.dt, 0,
+      traj = secondOrderFilter(f1_length, f2_length, config.dt, 0.0,
               adjusted_max_vel, impulse, time, TrapezoidalIntegration);
 
     } else {
@@ -194,7 +194,7 @@ public class TrajectoryGenerator {
     Trajectory.Segment last = new Trajectory.Segment();
     // First segment is easy
     last.pos = 0;
-    last.vel = start_vel;
+    last.vel = 0;
     last.acc = 0;
     last.jerk = 0;
     last.dt = dt;
