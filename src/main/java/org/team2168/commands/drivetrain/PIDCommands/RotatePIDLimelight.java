@@ -35,8 +35,8 @@ public class RotatePIDLimelight extends Command {
 
   /**
    * Constructor
-   * @param leftSpeed is the speed at which the drivetrain would drive straight
-   * @param rightSpeed is the speed at which the drivetrain would drive straight
+   * @param leftSpeed is the left motor speed at which the drivetrain would drive straight
+   * @param rightSpeed is the right motor speed at which the drivetrain would drive straight
    */
   public RotatePIDLimelight(double leftSpeed, double rightSpeed) {
     requires(Robot.drivetrain);
@@ -52,8 +52,8 @@ public class RotatePIDLimelight extends Command {
    * Constructor
    * @param minSpeed is the minimum speed the drivetrain can drive at
    * @param maxSpeed is the maximum speed the drivetrain can drive at
-   * @param leftSpeed is the speed at which the drivetrain would drive straight
-   * @param rightSpeed is the speed at which the drivetrain would drive straight
+   * @param leftSpeed is the left motor speed at which the drivetrain would drive straight
+   * @param rightSpeed is the right motor speed at which the drivetrain would drive straight
    */
   public RotatePIDLimelight(double minSpeed, double maxSpeed, double leftSpeed, double rightSpeed) {
     requires(Robot.drivetrain);
@@ -83,6 +83,7 @@ public class RotatePIDLimelight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Rotates the drivetrain at the speed outputted by the position controller in order to face the targets
     Robot.drivetrain.tankDrive(-Robot.drivetrain.limelightPosController.getControlOutput(),
        Robot.drivetrain.limelightPosController.getControlOutput());
   }

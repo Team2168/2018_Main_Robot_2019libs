@@ -28,10 +28,12 @@ public class TogglePipeline extends Command {
   protected void initialize() {
     finished = false;
 
+    // If vision is active, switches to a raw pipeline
     if(Robot.drivetrain.limelight.getPipeline() == 5) {
       Robot.drivetrain.limelight.setPipeline(7);
       finished = true;
     }
+    // If vision is inactive, switches to the vision pipeline
     else if(Robot.drivetrain.limelight.getPipeline() == 7) {
       Robot.drivetrain.limelight.setPipeline(5);
       finished = true;
