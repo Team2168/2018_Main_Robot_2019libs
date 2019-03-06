@@ -163,7 +163,7 @@ public class Drivetrain extends Subsystem {
 
 		imu = new IMU(drivetrainLeftEncoder, drivetrainRightEncoder, RobotMap.WHEEL_BASE);
 		limelight = new Limelight();
-		limelight.setPipeline(5);
+		limelight.setPipeline(0);
 
 		DrivetrainSonarSensor = new AnalogInput(RobotMap.DRIVETRAIN_SONAR_SENSOR);
 

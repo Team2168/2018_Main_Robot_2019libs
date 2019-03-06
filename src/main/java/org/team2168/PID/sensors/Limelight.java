@@ -126,7 +126,7 @@ public class Limelight implements PIDSensorInterface
      */
     public int getPipeline()
     {
-        return pipeline.getNumber(5).intValue();
+        return pipeline.getNumber(0).intValue();
     }
     
 }
