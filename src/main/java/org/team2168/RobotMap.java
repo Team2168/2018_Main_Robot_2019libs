@@ -186,8 +186,8 @@ public class RobotMap {
 	 *                         DRIVETRAIN PARAMETERS                         *
 	 *************************************************************************/
 	// TODO check if the reverse values match the physical robot
-	public static final boolean DT_REVERSE_LEFT1 = false; //false
-	public static final boolean DT_REVERSE_LEFT2 = true; //false
+	public static final boolean DT_REVERSE_LEFT1 = true; //false
+	public static final boolean DT_REVERSE_LEFT2 = false; //false
 	public static final boolean DT_REVERSE_LEFT3 = false; //false
 	public static final boolean DT_REVERSE_RIGHT1 = false; //true
 	public static final boolean DT_REVERSE_RIGHT2 = true; //true

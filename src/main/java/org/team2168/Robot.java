@@ -827,7 +827,7 @@ public class Robot extends TimedRobot
 
 	public static boolean isCanRobot() {
   
-		return !canBot.get();
+		return true;
 
 	}
 
