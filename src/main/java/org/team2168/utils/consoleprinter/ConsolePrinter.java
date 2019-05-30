@@ -204,28 +204,28 @@ public class ConsolePrinter {
 		executor = new java.util.Timer();
 		executor.schedule(new ConsolePrintTask(), 0L, ConsolePrinter.period);
 
-		try {
-			File file = new File("/home/lvuser/Logs");
-			if (!file.exists()) {
-				if (file.mkdir()) {
-					System.out.println("Log Directory is created!");
-				} else {
-					System.out.println("Failed to create Log directory!");
-				}
-			}
-			Date date = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-			dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
-			log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
-			log.println(dataFileHeader());
-			log.flush();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// 	File file = new File("/home/lvuser/Logs");
+		// 	if (!file.exists()) {
+		// 		if (file.mkdir()) {
+		// 			System.out.println("Log Directory is created!");
+		// 		} else {
+		// 			System.out.println("Failed to create Log directory!");
+		// 		}
+		// 	}
+		// 	Date date = new Date();
+		// 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+		// 	dateFormat.setTimeZone(TimeZone.getTimeZone("EST5EDT"));
+		// 	log = new PrintWriter("/home/lvuser/Logs/" + dateFormat.format(date) + "-Log.txt", "UTF-8");
+		// 	log.println(dataFileHeader());
+		// 	log.flush();
+		// } catch (FileNotFoundException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// } catch (UnsupportedEncodingException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// }
 
 	}
 
@@ -294,7 +294,7 @@ public class ConsolePrinter {
 		 */
 		public void run() {
 			ConsolePrinter.dataToDashboard();
-			ConsolePrinter.dataToFile();
+			// ConsolePrinter.dataToFile();
 		}
 	}
 
